@@ -548,9 +548,10 @@
         }
         if (!animate) { this.view = { ...next }; this._markDirty(true); return; }
         const from = { ...this.view };
-        const start = performance.now();
+        let start = null;
         this._setStatus('animating');
         const step = (now) => {
+          if (!start) start = now;
           const t = clamp((now - start) / duration, 0, 1);
           const e = easeInOutCubic(t);
           this.view = {
@@ -1488,6 +1489,12 @@
       const collapsed = sidebar.classList.toggle('collapsed');
       sidebarIcon.innerHTML = collapsed ? hamburgerPath : closePath;
       // Trigger resize so the canvas redraws to fill new space
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 320);
+    });
+    
+    document.getElementById('mobile-sidebar-close')?.addEventListener('click', () => {
+      sidebar.classList.add('collapsed');
+      sidebarIcon.innerHTML = hamburgerPath;
       setTimeout(() => window.dispatchEvent(new Event('resize')), 320);
     });
 

@@ -337,7 +337,6 @@
 
     .eq-card.active-focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
     }
 
     .eq-card.error {
@@ -372,7 +371,6 @@
 
     .eq-input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
     }
 
     .btn-icon {
@@ -1393,5 +1391,25 @@
 
       .logo-img {
         height: 44px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        position: absolute;
+        width: 100vw;
+        max-width: 100vw;
+        height: 100vh;
+        z-index: 100;
+        top: 0;
+        left: 0;
+      }
+      #sidebar.collapsed {
+        width: 100vw;
+        min-width: 100vw;
+        transform: translateX(-100%);
+      }
+      .mobile-sidebar-close {
+        display: flex !important;
       }
     }
