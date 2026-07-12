@@ -121,24 +121,13 @@ html[data-theme="dark"] .site-header {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
 }
 
 .theme-toggle:hover {
   border-color: var(--accent);
   color: var(--accent);
-}
-
-.theme-toggle .icon-moon {
-  display: none;
-}
-
-html[data-theme="dark"] .theme-toggle .icon-sun {
-  display: none;
-}
-
-html[data-theme="dark"] .theme-toggle .icon-moon {
-  display: block;
+  background: var(--card-active);
 }
 
 /* ── Hero ── */
