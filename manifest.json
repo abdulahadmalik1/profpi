@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "profpi — Graphing Calculator",
+  "short_name": "profpi",
+  "description": "Free, fast, interactive online graphing calculator to plot functions and explore math.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "lang": "en",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
