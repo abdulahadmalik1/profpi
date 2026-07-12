@@ -465,6 +465,7 @@
         this._panStart = null;
         this._pinchStart = null;
         this._animFrame = null;
+        this._viewAnimFrame = null;
 
         this._resizeObserver = new ResizeObserver(() => this._resize());
         this._resizeObserver.observe(canvas);
@@ -477,6 +478,7 @@
       destroy() {
         this._resizeObserver.disconnect();
         if (this._animFrame) cancelAnimationFrame(this._animFrame);
+        if (this._viewAnimFrame) cancelAnimationFrame(this._viewAnimFrame);
         clearTimeout(this._settleTimer);
         clearTimeout(this._wheelIdleTimer);
         this._unbindEvents();
@@ -540,6 +542,10 @@
       resetView(animate = true) { this.setView({ xMin: -10, xMax: 10, yMin: -6, yMax: 6 }, animate); }
 
       setView(next, animate = false, duration = 260) {
+        if (this._viewAnimFrame) {
+          cancelAnimationFrame(this._viewAnimFrame);
+          this._viewAnimFrame = null;
+        }
         if (!animate) { this.view = { ...next }; this._markDirty(true); return; }
         const from = { ...this.view };
         const start = performance.now();
@@ -555,10 +561,10 @@
           };
           this._quality = 'low';
           this._dirty = true;
-          if (t < 1) { this._animFrame = requestAnimationFrame(step); }
-          else { this._settle(); this._setStatus('idle'); }
+          if (t < 1) { this._viewAnimFrame = requestAnimationFrame(step); }
+          else { this._viewAnimFrame = null; this._settle(); this._setStatus('idle'); }
         };
-        this._animFrame = requestAnimationFrame(step);
+        this._viewAnimFrame = requestAnimationFrame(step);
       }
 
       zoomAt(sx, sy, factor) {
@@ -647,6 +653,10 @@
       }
 
       _pointerDown(e) {
+        if (this._viewAnimFrame) {
+          cancelAnimationFrame(this._viewAnimFrame);
+          this._viewAnimFrame = null;
+        }
         const rect = this.canvas.getBoundingClientRect();
         this._pointers.set(e.pointerId, { x: e.clientX - rect.left, y: e.clientY - rect.top });
         if (this._pointers.size === 1) {
