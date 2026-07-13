@@ -1708,3 +1708,5 @@
 
 // Global export
 if (typeof window !== 'undefined') window.GraphEngine = GraphEngine;
+
+// Revert pen feature - fresh build trigger
