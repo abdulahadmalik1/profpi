@@ -264,12 +264,11 @@
             const xm = (x1 + x2) / 2;
             const pm = evalPt(xm);
             subdivide(x1, p1, xm, pm, depth + 1);
+            if (pm) points.push(pm); else points.push(null);
             subdivide(xm, pm, x2, p2, depth + 1);
           } else {
-            // At max depth, just emit valid point with break
-            if (p1) points.push(p1);
+            // At max depth, insert a break between the valid and invalid regions
             points.push(null);
-            if (p2) points.push(p2);
           }
           return;
         }
@@ -281,9 +280,10 @@
           // midpoint is in gap — subdivide both sides to find edges precisely
           if (depth < maxDepth) {
             subdivide(x1, p1, xm, pm, depth + 1);
+            points.push(null);
             subdivide(xm, pm, x2, p2, depth + 1);
           } else {
-            points.push(p1, null, p2);
+            points.push(null);
           }
           return;
         }
@@ -292,9 +292,10 @@
         if (Math.abs(p1.sy - p2.sy) > height * 1.5) {
           if (depth < maxDepth + 1) {
             subdivide(x1, p1, xm, pm, depth + 1);
+            if (pm) points.push(pm); else points.push(null);
             subdivide(xm, pm, x2, p2, depth + 1);
           } else {
-            points.push(p1, null, p2);
+            points.push(null);
           }
           return;
         }
@@ -306,18 +307,27 @@
 
         if (distSq > 0.25 && depth < maxDepth) {
           subdivide(x1, p1, xm, pm, depth + 1);
+          points.push(pm);
           subdivide(xm, pm, x2, p2, depth + 1);
         } else {
-          points.push(p1, pm, p2);
+          points.push(pm);
         }
       }
 
-      let prevX = view.xMin;
+      // Anchor the grid to absolute math coordinates so it doesn't slide during pan
+      const startX = Math.floor(view.xMin / dx) * dx;
+      const endX = Math.ceil(view.xMax / dx) * dx;
+      
+      let prevX = startX;
       let prevPt = evalPt(prevX);
-      for (let i = 1; i <= baseSamples; i++) {
-        const nextX = view.xMin + i * dx;
+      if (prevPt) points.push(prevPt); else points.push(null);
+
+      // Add a small epsilon to endX to prevent floating point issues dropping the last point
+      for (let x = startX + dx; x <= endX + dx * 0.1; x += dx) {
+        const nextX = x;
         const nextPt = evalPt(nextX);
         subdivide(prevX, prevPt, nextX, nextPt, 0);
+        if (nextPt) points.push(nextPt); else points.push(null);
         prevX = nextX;
         prevPt = nextPt;
       }
