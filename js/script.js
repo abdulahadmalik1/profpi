@@ -659,7 +659,12 @@
           this._viewAnimFrame = null;
         }
         const rect = this.canvas.getBoundingClientRect();
-        this._pointers.set(e.pointerId, { x: e.clientX - rect.left, y: e.clientY - rect.top });
+        this._pointers.set(e.pointerId, {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+          clientX: e.clientX,
+          clientY: e.clientY
+        });
         if (this._pointers.size === 1) {
           this._panStart = { mouse: { x: e.clientX, y: e.clientY }, view: { ...this.view } };
           this._setStatus('panning');
@@ -678,7 +683,14 @@
         const rect = this.canvas.getBoundingClientRect();
         const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
 
-        if (this._pointers.has(e.pointerId)) this._pointers.set(e.pointerId, { x: sx, y: sy });
+        if (this._pointers.has(e.pointerId)) {
+          this._pointers.set(e.pointerId, {
+            x: sx,
+            y: sy,
+            clientX: e.clientX,
+            clientY: e.clientY
+          });
+        }
 
         if (this._pointers.size === 1 && this._panStart) {
           const dx = e.clientX - this._panStart.mouse.x;
@@ -729,7 +741,19 @@
 
       _pointerUp(e) {
         this._pointers.delete(e.pointerId);
-        if (this._pointers.size === 0) { this._panStart = null; this._setStatus('idle'); this._settle(); }
+        if (this._pointers.size === 0) {
+          this._panStart = null;
+          this._setStatus('idle');
+          this._settle();
+        } else if (this._pointers.size === 1) {
+          // Reset panning anchor to the remaining finger to prevent coordinate jump
+          const remaining = [...this._pointers.values()][0];
+          this._panStart = {
+            mouse: { x: remaining.clientX, y: remaining.clientY },
+            view: { ...this.view }
+          };
+          this._setStatus('panning');
+        }
         if (this._pointers.size < 2) this._pinchStart = null;
       }
 
