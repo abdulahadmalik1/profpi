@@ -155,7 +155,13 @@
 
     function compileBody(text) {
       if (!text || !text.trim()) throw new Error('Empty expression');
-      const tokens = expandImplicitMultiplication(tokenize(text));
+      if ((text.match(/\|/g) || []).length % 2 !== 0) {
+        throw new Error("Missing closing '|'");
+      }
+      let normalized = text
+        .replace(/√/g, 'sqrt')
+        .replace(/\|([^|]+)\|/g, 'abs($1)');
+      const tokens = expandImplicitMultiplication(tokenize(normalized));
       return new ExprParser(tokens).parse();
     }
 
@@ -1627,8 +1633,10 @@
       { label: 'asech(x)', word: 'asech', insert: 'asech(', badge: 'ihyp', desc: 'Inverse hyperbolic secant' },
       { label: 'acsch(x)', word: 'acsch', insert: 'acsch(', badge: 'ihyp', desc: 'Inverse hyperbolic cosecant' },
       // General functions
+      { label: '√(x)', word: 'root', insert: '√(', badge: 'fn', desc: 'Square root' },
       { label: 'sqrt(x)', word: 'sqrt', insert: 'sqrt(', badge: 'fn', desc: 'Square root' },
       { label: 'cbrt(x)', word: 'cbrt', insert: 'cbrt(', badge: 'fn', desc: 'Cube root' },
+      { label: '|x|', word: 'mod', insert: '||', badge: 'fn', desc: 'Absolute value' },
       { label: 'abs(x)', word: 'abs', insert: 'abs(', badge: 'fn', desc: 'Absolute value' },
       { label: 'exp(x)', word: 'exp', insert: 'exp(', badge: 'fn', desc: 'e^x' },
       { label: 'ln(x)', word: 'ln', insert: 'ln(', badge: 'fn', desc: 'Natural log' },
@@ -1662,7 +1670,10 @@
       const before = input.value.slice(0, acWordStart);
       const after = input.value.slice(input.selectionStart);
       let newVal, cursor;
-      if (suggestion.insert.endsWith('(')) {
+      if (suggestion.insert === '||') {
+        newVal = before + '||' + after;
+        cursor = before.length + 1;
+      } else if (suggestion.insert.endsWith('(')) {
         newVal = before + suggestion.insert + ')' + after;
         cursor = before.length + suggestion.insert.length;
       } else {
