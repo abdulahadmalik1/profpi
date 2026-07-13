@@ -1357,11 +1357,22 @@
     let previewDataUrl = null;
 
     function enterInteractiveView() {
-      previewOverlay.classList.remove('open');
+      // Collapse the sidebar instantly behind the modal to prevent visual layout stretching
+      sidebar.classList.add('no-transition');
       sidebar.classList.add('collapsed');
       sidebarIcon.innerHTML = hamburgerPath;
       document.getElementById('empty-state').classList.add('hidden');
-      setTimeout(() => window.dispatchEvent(new Event('resize')), 320);
+
+      // Resize the canvas instantly while it is still covered by the modal
+      engine._resize();
+      engine._render();
+
+      // Trigger reflow to apply the transition-less state, then re-enable transition for future toggles
+      sidebar.offsetHeight;
+      sidebar.classList.remove('no-transition');
+
+      // Finally close the preview overlay modal smoothly
+      previewOverlay.classList.remove('open');
     }
 
     document.getElementById('visualize-btn').addEventListener('click', () => {

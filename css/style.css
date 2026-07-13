@@ -123,7 +123,7 @@
     }
 
     .sidebar-header {
-      padding: 24px;
+      padding: 16px 20px;
       border-bottom: 1px solid var(--border-color);
       background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
     }
@@ -157,13 +157,13 @@
     }
 
     .logo-img {
-      height: 50px;
+      height: 38px;
       width: auto;
       object-fit: contain;
     }
 
     .sidebar-header h1 {
-      font-size: 1.85rem;
+      font-size: 1.5rem;
       font-weight: 750;
       letter-spacing: -0.03em;
       background: linear-gradient(135deg, #6366f1, #06b6d4);
@@ -171,7 +171,7 @@
       -webkit-text-fill-color: transparent;
       line-height: 1;
       margin: 0;
-      transform: translateY(-5px);
+      transform: translateY(-2px);
     }
 
     .howto-btn {
@@ -315,17 +315,17 @@
     .equations-container {
       flex-grow: 1;
       overflow-y: auto;
-      padding: 20px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
     }
 
     .eq-card {
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 14px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -1389,8 +1389,9 @@
       }
       
       #sidebar.collapsed {
-        width: 280px;
-        max-width: 90vw;
+        width: 0;
+        min-width: 0;
+        max-width: 0;
       }
 
       #sidebar:not(.collapsed) + #graph-container #sidebar-toggle {
@@ -1398,11 +1399,11 @@
       }
 
       .sidebar-header h1 {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
       }
 
       .logo-img {
-        height: 44px;
+        height: 32px;
       }
     }
 
@@ -1415,4 +1416,8 @@
     input:focus, select:focus, textarea:focus, button:focus {
       outline: none !important;
       box-shadow: none !important;
+    }
+
+    .no-transition {
+      transition: none !important;
     }
