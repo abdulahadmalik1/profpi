@@ -337,7 +337,7 @@
     }
 
     .eq-card.active-focus {
-      border-color: var(--accent);
+      border-color: var(--text-muted);
     }
 
     .eq-card.error {
@@ -371,15 +371,14 @@
     }
 
     .eq-input:focus {
-      border-color: var(--accent);
+      border-color: var(--text-muted);
     }
 
     .eq-input:focus-visible,
     .pp-eq-row input:focus-visible,
     .pp-x-input:focus-visible,
     .pp-active-eq-select:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
+      outline: none;
     }
 
     .btn-icon {
@@ -534,8 +533,8 @@
     }
 
     .pp-eq-row input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+      border-color: var(--text-muted);
+      box-shadow: none;
     }
 
     .pp-eq-row input.pp-eq-ok {
@@ -585,7 +584,7 @@
     }
 
     .pp-x-input:focus {
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+      box-shadow: none;
     }
 
     .pp-plot-btn {
@@ -750,7 +749,7 @@
     }
 
     .pp-active-eq-select:focus {
-      border-color: var(--accent);
+      border-color: var(--text-muted);
     }
 
     .pp-active-eq-select option {
