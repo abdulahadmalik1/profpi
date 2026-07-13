@@ -105,13 +105,18 @@
   <!-- Sidebar -->
   <div id="sidebar">
     <div class="sidebar-header">
-      <div class="logo-container">
+      <div class="logo-container" style="display: flex; align-items: center; width: 100%;">
         <a href="/" class="logo-home-link" aria-label="profpi home">
           <img src="/assets/images/logo.png?v=2" alt="profpi logo" class="logo-img" width="50" height="50">
           <h1>profpi</h1>
         </a>
+        <button class="feedback-btn" id="feedback-btn" title="Send Feedback" aria-label="Send feedback" style="margin-left: auto;">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </button>
       </div>
-      <button class="btn-icon mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close sidebar" style="display:none; margin-left: auto;">
+      <button class="btn-icon mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close sidebar" style="display:none; margin-left: 8px;">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -349,12 +354,65 @@
     </div>
   </div>
 
+  <!-- Feedback Overlay -->
+  <div class="feedback-overlay" id="feedback-overlay">
+    <div class="feedback-card">
+      <div class="feedback-card-header">
+        <h2>Send Feedback</h2>
+        <button class="btn-icon" id="feedback-close" title="Close feedback modal" aria-label="Close feedback modal">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <form id="feedback-form" class="feedback-card-body">
+        <div class="feedback-form-group">
+          <label class="feedback-label">Feedback Type</label>
+          <div class="feedback-chips">
+            <button type="button" class="feedback-chip active" data-type="general">General</button>
+            <button type="button" class="feedback-chip" data-type="bug">Bug Report</button>
+            <button type="button" class="feedback-chip" data-type="feature">Feature Request</button>
+          </div>
+        </div>
 
+        <div class="feedback-form-group">
+          <label for="feedback-message" class="feedback-label">Your Message</label>
+          <textarea id="feedback-message" required class="feedback-textarea" placeholder="Tell us what you think or describe the issue..."></textarea>
+        </div>
 
+        <div class="feedback-form-group">
+          <label for="feedback-email" class="feedback-label">Email Address <span class="feedback-optional">(Optional)</span></label>
+          <input type="email" id="feedback-email" class="feedback-input" placeholder="your@email.com">
+        </div>
 
+        <div class="feedback-error" id="feedback-error" style="display: none;"></div>
+
+        <div class="feedback-card-actions">
+          <button type="button" class="btn-secondary" id="feedback-cancel">Cancel</button>
+          <button type="submit" class="btn-primary" id="feedback-submit">
+            <span>Submit Feedback</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Success State -->
+      <div id="feedback-success" class="feedback-card-body feedback-success-state" style="display: none;">
+        <div class="success-icon-wrapper">
+          <svg width="40" height="40" fill="none" stroke="#10b981" stroke-width="2.5" viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h3>Thank you for your feedback!</h3>
+        <p>We read every message and appreciate you helping us make profpi better.</p>
+        <button type="button" class="btn-primary" id="feedback-success-close" style="width: 140px; margin-top: 16px;">Done</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Inline Script -->
-    <script src="/js/script.js?v=3" defer></script>
+  <script src="/js/script.js?v=3" defer></script>
 </body>
 
 </html>
