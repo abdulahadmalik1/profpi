@@ -666,9 +666,11 @@
           clientY: e.clientY
         });
         if (this._pointers.size === 1) {
+          this._tapStartPos = { x: e.clientX, y: e.clientY };
           this._panStart = { mouse: { x: e.clientX, y: e.clientY }, view: { ...this.view } };
           this._setStatus('panning');
         } else if (this._pointers.size === 2) {
+          this._tapStartPos = null;
           const pts = [...this._pointers.values()];
           this._pinchStart = {
             dist: Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y),
@@ -740,11 +742,18 @@
       }
 
       _pointerUp(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+        const isTap = this._tapStartPos && Math.hypot(e.clientX - this._tapStartPos.x, e.clientY - this._tapStartPos.y) < 6;
+
         this._pointers.delete(e.pointerId);
         if (this._pointers.size === 0) {
           this._panStart = null;
           this._setStatus('idle');
           this._settle();
+          if (isTap) {
+            this._hoverAt(sx, sy);
+          }
         } else if (this._pointers.size === 1) {
           // Reset panning anchor to the remaining finger to prevent coordinate jump
           const remaining = [...this._pointers.values()][0];
@@ -800,6 +809,7 @@
       _setStatus(status) {
         if (status === this._status) return;
         this._status = status;
+        if (status !== 'idle' && this.onHover) this.onHover(null);
         if (this.onStatusChange) this.onStatusChange(status);
       }
       _markDirty(v) { this._dirty = v; }
@@ -1163,6 +1173,13 @@
 
         // Text input: store text locally only (no live render).
         textInput.addEventListener('input', (e) => {
+          const val = e.target.value;
+          const pos = e.target.selectionStart;
+          const newVal = val.replace(/X/g, 'x').replace(/Y/g, 'y');
+          if (val !== newVal) {
+            e.target.value = newVal;
+            e.target.setSelectionRange(pos, pos);
+          }
           eq.text = e.target.value;
           eq.visualized = false;
           card.classList.remove('error');
