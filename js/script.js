@@ -241,49 +241,86 @@
 
     function sampleCurve(f, view, width, height, quality) {
       const points = [];
-      const step = quality === 'low' ? 3 : 1;
-      
-      const evalPt = (sx) => {
-        const x = view.xMin + (sx / width) * (view.xMax - view.xMin);
+      const baseSamples = quality === 'low' ? 90 : 260;
+      const maxDepth = quality === 'low' ? 5 : 10;
+      const dx = (view.xMax - view.xMin) / baseSamples;
+
+      const evalPt = (x) => {
         const y = f(x);
         if (Number.isNaN(y) || !Number.isFinite(y)) return null;
-        const sy = view.yMax - ((y - view.yMin) / (view.yMax - view.yMin)) * height;
-        if (Math.abs(sy) > height * 10) return null;
-        return { x, y, sx, sy };
+        const s = mathToScreen(x, y, view, width, height);
+        // Treat wildly off-screen values (e.g. log(x) as x -> 0+) as a domain edge
+        // rather than a real point — otherwise the sampler keeps deep-recursing on
+        // the near-vertical runaway and it visibly "keeps rendering" while zooming.
+        if (!Number.isFinite(s.y) || Math.abs(s.y) > height * 50) return null;
+        return { x, y, sx: s.x, sy: s.y };
       };
 
-      let prev = evalPt(0);
-      if (prev) points.push(prev);
-
-      for (let sx = step; sx <= width; sx += step) {
-        const curr = evalPt(sx);
-        if (!curr) {
-          points.push(null);
-          prev = null;
-          continue;
-        }
-
-        if (prev) {
-          if (Math.abs(prev.sy - curr.sy) > height * 0.8) {
-            if ((prev.sy < 0 && curr.sy > height) || (prev.sy > height && curr.sy < 0)) {
-              if (prev.y * curr.y < 0) {
-                const mx = (prev.x + curr.x) / 2;
-                const my = f(mx);
-                const linearY = (prev.y + curr.y) / 2;
-                if (!Number.isFinite(my) || Math.abs(my - linearY) > Math.abs(prev.y - curr.y) * 0.2) {
-                  points.push(null);
-                }
-              }
-            }
+      function subdivide(x1, p1, x2, p2, depth) {
+        if (!p1 && !p2) return;
+        // If one side is null (domain boundary like log), keep subdividing to find exact boundary
+        if (!p1 || !p2) {
+          if (depth < maxDepth) {
+            const xm = (x1 + x2) / 2;
+            const pm = evalPt(xm);
+            subdivide(x1, p1, xm, pm, depth + 1);
+            subdivide(xm, pm, x2, p2, depth + 1);
+          } else {
+            // At max depth, just emit valid point with break
+            if (p1) points.push(p1);
+            points.push(null);
+            if (p2) points.push(p2);
           }
-        } else {
-          points.push(null);
+          return;
         }
 
-        points.push(curr);
-        prev = curr;
+        const xm = (x1 + x2) / 2;
+        const pm = evalPt(xm);
+
+        if (!pm) {
+          // midpoint is in gap — subdivide both sides to find edges precisely
+          if (depth < maxDepth) {
+            subdivide(x1, p1, xm, pm, depth + 1);
+            subdivide(xm, pm, x2, p2, depth + 1);
+          } else {
+            points.push(p1, null, p2);
+          }
+          return;
+        }
+
+        // Asymptote guard: huge vertical jump in screen-space
+        if (Math.abs(p1.sy - p2.sy) > height * 1.5) {
+          if (depth < maxDepth + 1) {
+            subdivide(x1, p1, xm, pm, depth + 1);
+            subdivide(xm, pm, x2, p2, depth + 1);
+          } else {
+            points.push(p1, null, p2);
+          }
+          return;
+        }
+
+        // Curvature test
+        const A = p2.sy - p1.sy, B = p1.sx - p2.sx;
+        const C = p2.sx * p1.sy - p1.sx * p2.sy;
+        const distSq = (A * pm.sx + B * pm.sy + C) ** 2 / (A * A + B * B + 1e-9);
+
+        if (distSq > 0.25 && depth < maxDepth) {
+          subdivide(x1, p1, xm, pm, depth + 1);
+          subdivide(xm, pm, x2, p2, depth + 1);
+        } else {
+          points.push(p1, pm, p2);
+        }
       }
 
+      let prevX = view.xMin;
+      let prevPt = evalPt(prevX);
+      for (let i = 1; i <= baseSamples; i++) {
+        const nextX = view.xMin + i * dx;
+        const nextPt = evalPt(nextX);
+        subdivide(prevX, prevPt, nextX, nextPt, 0);
+        prevX = nextX;
+        prevPt = nextPt;
+      }
       return points;
     }
 
@@ -1220,12 +1257,6 @@
       const collapsed = pointsPanel.classList.toggle('collapsed');
       engine.showCurves = collapsed;
       engine._markDirty(true);
-    });
-
-    const mathGuidePanel = document.getElementById('math-guide-panel');
-    const mathGuideToggle = document.getElementById('math-guide-toggle');
-    mathGuideToggle.addEventListener('click', () => {
-      mathGuidePanel.classList.toggle('collapsed');
     });
 
     let activeEqId = null;
