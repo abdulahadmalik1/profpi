@@ -414,7 +414,7 @@
 
         if (isFinite(py) && isFinite(ny) && (py * ny < 0 || py === 0)) {
           const rx = py === 0 ? px : bisect(px, nx, f);
-          if (Math.abs(f(rx)) < 1e-4) pois.push({ x: rx, y: 0, type: 'root', label: `Root (${rx.toFixed(3)}, 0)` });
+          if (Math.abs(f(rx)) < 1e-4) pois.push({ x: rx, y: 0, type: 'root', label: `(${rx.toFixed(3)}, 0)` });
         }
         if (isFinite(pdf) && isFinite(ndf) && (pdf * ndf < 0 || pdf === 0)) {
           const ex = pdf === 0 ? px : bisect(px, nx, df);
