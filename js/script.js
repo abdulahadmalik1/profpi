@@ -1714,8 +1714,9 @@
         });
       });
 
-      // Highlight the top match by default so Enter/Tab has an obvious, immediate action.
-      acSetActive(0);
+      // Do not highlight a match by default so Enter just types the user's string.
+      // They must use ArrowDown to select a suggestion.
+      acSetActive(-1);
     }
 
     function acSetActive(idx) {
@@ -1749,16 +1750,18 @@
         acSetActive(Math.min(acActiveIdx + 1, items.length - 1));
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        acSetActive(Math.max(acActiveIdx - 1, 0));
+        acSetActive(acActiveIdx <= 0 ? -1 : acActiveIdx - 1);
       } else if (e.key === 'Tab' || e.key === 'Enter') {
-        // A suggestion is open: accept it (defaulting to the top match) and swallow the
-        // keystroke entirely so it can't also trigger the row's own "Enter = new row" handler.
-        e.preventDefault();
-        e.stopPropagation();
-        const word = acMatchedInput.value.slice(acWordStart, acMatchedInput.selectionStart);
-        const matches = acMatches(word);
-        const pick = matches[Math.max(acActiveIdx, 0)];
-        if (pick) acAccept(pick, acMatchedInput);
+        if (acActiveIdx >= 0) {
+          e.preventDefault();
+          e.stopPropagation();
+          const word = acMatchedInput.value.slice(acWordStart, acMatchedInput.selectionStart);
+          const matches = acMatches(word);
+          const pick = matches[acActiveIdx];
+          if (pick) acAccept(pick, acMatchedInput);
+        } else {
+          acHide();
+        }
       } else if (e.key === 'Escape') {
         acHide();
       }

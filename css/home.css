@@ -112,6 +112,7 @@ html[data-theme="dark"] .site-header {
 
 .theme-toggle {
   display: flex;
+  margin-left: auto;
   background: none;
   border: 1px solid var(--border-color);
   color: var(--text-main);
