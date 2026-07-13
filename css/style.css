@@ -337,7 +337,7 @@
     }
 
     .eq-card.active-focus {
-      border-color: var(--text-muted);
+      border-color: var(--border-color);
     }
 
     .eq-card.error {
@@ -371,7 +371,7 @@
     }
 
     .eq-input:focus {
-      border-color: var(--text-muted);
+      border-color: var(--border-color);
     }
 
     .eq-input:focus-visible,
@@ -533,7 +533,7 @@
     }
 
     .pp-eq-row input:focus {
-      border-color: var(--text-muted);
+      border-color: var(--border-color);
       box-shadow: none;
     }
 
@@ -749,7 +749,7 @@
     }
 
     .pp-active-eq-select:focus {
-      border-color: var(--text-muted);
+      border-color: var(--border-color);
     }
 
     .pp-active-eq-select option {
@@ -1410,4 +1410,9 @@
        becomes a slide-in drawer; keep it out of the way on desktop. */
     .mobile-sidebar-close {
       display: none;
+    }
+
+    input:focus, select:focus, textarea:focus, button:focus {
+      outline: none !important;
+      box-shadow: none !important;
     }

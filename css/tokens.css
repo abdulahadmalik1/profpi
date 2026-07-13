@@ -51,7 +51,11 @@ html[data-theme="dark"] {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+a, button, input, select, textarea, label, [role="button"] {
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 html, body {
