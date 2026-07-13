@@ -666,7 +666,7 @@
           clientY: e.clientY
         });
         if (this._pointers.size === 1) {
-          this._tapStartPos = { x: e.clientX, y: e.clientY };
+          this._tapStartPos = { x: e.clientX, y: e.clientY, sx: e.clientX - rect.left, sy: e.clientY - rect.top };
           this._panStart = { mouse: { x: e.clientX, y: e.clientY }, view: { ...this.view } };
           this._setStatus('panning');
         } else if (this._pointers.size === 2) {
@@ -692,6 +692,11 @@
             clientX: e.clientX,
             clientY: e.clientY
           });
+        }
+
+        // Cancel tap if gesture has dragged significantly (greater than 10 pixels)
+        if (this._tapStartPos && Math.hypot(e.clientX - this._tapStartPos.x, e.clientY - this._tapStartPos.y) > 10) {
+          this._tapStartPos = null;
         }
 
         if (this._pointers.size === 1 && this._panStart) {
@@ -743,16 +748,18 @@
 
       _pointerUp(e) {
         const rect = this.canvas.getBoundingClientRect();
-        const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
-        const isTap = this._tapStartPos && Math.hypot(e.clientX - this._tapStartPos.x, e.clientY - this._tapStartPos.y) < 6;
+        const startPos = this._tapStartPos;
+        const isTap = !!startPos;
+        this._tapStartPos = null;
 
         this._pointers.delete(e.pointerId);
         if (this._pointers.size === 0) {
           this._panStart = null;
           this._setStatus('idle');
           this._settle();
-          if (isTap) {
-            this._hoverAt(sx, sy);
+          if (isTap && startPos) {
+            // Use pointerdown coordinates as they are guaranteed to be populated on touch start
+            this._hoverAt(startPos.sx, startPos.sy);
           }
         } else if (this._pointers.size === 1) {
           // Reset panning anchor to the remaining finger to prevent coordinate jump
