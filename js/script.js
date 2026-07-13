@@ -694,10 +694,7 @@
           });
         }
 
-        // Cancel tap if gesture has dragged significantly (greater than 10 pixels)
-        if (this._tapStartPos && Math.hypot(e.clientX - this._tapStartPos.x, e.clientY - this._tapStartPos.y) > 10) {
-          this._tapStartPos = null;
-        }
+        // Remove the tap cancellation logic entirely to make touch coordinate display foolproof
 
         if (this._pointers.size === 1 && this._panStart) {
           const dx = e.clientX - this._panStart.mouse.x;
@@ -748,19 +745,24 @@
 
       _pointerUp(e) {
         const rect = this.canvas.getBoundingClientRect();
-        const startPos = this._tapStartPos;
-        const isTap = !!startPos;
-        this._tapStartPos = null;
+        // Fallback for Android browsers that don't provide clientX/Y on pointerup
+        let cx = e.clientX;
+        let cy = e.clientY;
+        if ((cx === undefined || cx === 0) && this._tapStartPos) {
+          cx = this._tapStartPos.x;
+          cy = this._tapStartPos.y;
+        }
+        const sx = cx - rect.left;
+        const sy = cy - rect.top;
 
         this._pointers.delete(e.pointerId);
         if (this._pointers.size === 0) {
           this._panStart = null;
           this._setStatus('idle');
           this._settle();
-          if (isTap && startPos) {
-            // Use pointerdown coordinates as they are guaranteed to be populated on touch start
-            this._hoverAt(startPos.sx, startPos.sy);
-          }
+          // Always try to show a coordinate on pointer lift!
+          // This makes it foolproof: wherever you lift your finger, if there is a curve nearby, you get the coordinate!
+          this._hoverAt(sx, sy);
         } else if (this._pointers.size === 1) {
           // Reset panning anchor to the remaining finger to prevent coordinate jump
           const remaining = [...this._pointers.values()][0];
