@@ -26,7 +26,7 @@
     }
 
     html[data-theme="dark"] .sidebar-actions {
-      background-color: rgba(2, 6, 23, 0.5);
+      background-color: transparent;
     }
 
     /* Universal box-sizing reset now lives in css/tokens.css */
@@ -166,9 +166,7 @@
       font-size: 1.5rem;
       font-weight: 750;
       letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #6366f1, #06b6d4);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--text-main);
       line-height: 1;
       margin: 0;
       transform: translateY(-2px);
@@ -780,19 +778,19 @@
       border-top: 1px solid var(--border-color);
       display: flex;
       gap: 12px;
-      background-color: rgba(14, 19, 34, 0.5);
+      background-color: transparent;
     }
 
     .btn-primary {
-      background-color: var(--accent);
-      color: white;
+      background-color: var(--text-main);
+      color: var(--bg-space);
       border: none;
       padding: 12px 18px;
       border-radius: var(--radius-md);
       font-weight: 600;
       font-size: 0.9rem;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.15s;
+      transition: opacity 0.2s, transform 0.15s;
       flex-grow: 2;
       display: flex;
       justify-content: center;
@@ -801,7 +799,7 @@
     }
 
     .btn-primary:hover {
-      background-color: var(--accent-hover);
+      opacity: 0.9;
     }
 
     .btn-secondary {
