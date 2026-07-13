@@ -105,18 +105,13 @@
   <!-- Sidebar -->
   <div id="sidebar">
     <div class="sidebar-header">
-      <div class="logo-container" style="display: flex; align-items: center; width: 100%;">
+      <div class="logo-container">
         <a href="/" class="logo-home-link" aria-label="profpi home">
           <img src="/assets/images/logo.png?v=2" alt="profpi logo" class="logo-img" width="50" height="50">
           <h1>profpi</h1>
         </a>
-        <a href="mailto:malikahad017@gmail.com?subject=ProfPi%20Feedback%20%26%20Suggestions" class="feedback-btn" id="feedback-btn" title="Send email feedback / suggestions" aria-label="Send email feedback / suggestions" style="margin-left: auto; text-decoration: none;">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-        </a>
       </div>
-      <button class="btn-icon mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close sidebar" style="display:none; margin-left: 8px;">
+      <button class="btn-icon mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close sidebar" style="display:none; margin-left: auto;">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -172,10 +167,13 @@
       </div>
     </div>
 
-    <div class="sidebar-actions">
-      <button class="btn-primary" id="visualize-btn">
+    <div class="sidebar-actions" style="display: flex; flex-direction: column; gap: 10px; align-items: center; width: 100%;">
+      <button class="btn-primary" id="visualize-btn" style="width: 100%;">
         Visualize
       </button>
+      <span style="font-size: 0.72rem; color: var(--text-muted); text-align: center; line-height: 1.4;">
+        For any suggestions or improvements, please email <a href="mailto:malikahad017@gmail.com" style="color: var(--accent); text-decoration: none; font-weight: 600;">malikahad017@gmail.com</a>
+      </span>
     </div>
   </div>
 
