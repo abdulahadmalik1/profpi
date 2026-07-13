@@ -229,6 +229,15 @@
       return nice * 10 ** exp;
     }
 
+    function getGridSubdivisions(spacing) {
+      const exp = Math.floor(Math.log10(spacing));
+      const normalized = spacing / 10 ** exp;
+      if (Math.abs(normalized - 1) < 0.1) return 5;
+      if (Math.abs(normalized - 2) < 0.1) return 4;
+      if (Math.abs(normalized - 5) < 0.1) return 5;
+      return 5;
+    }
+
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
     const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 
@@ -935,16 +944,38 @@
               }
             }
           } else {
+            // 1. Draw minor grid lines (blocks) first so they appear underneath
+            const subX = gx / getGridSubdivisions(gx);
+            const subY = gy / getGridSubdivisions(gy);
+            const minStartX = Math.ceil(view.xMin / subX) * subX;
+            const minStartY = Math.ceil(view.yMin / subY) * subY;
+
+            ctx.strokeStyle = theme.minorGrid || (theme.bg === '#0f172a' ? '#162032' : '#f1f5f9');
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            for (let x = minStartX; x <= view.xMax; x += subX) {
+              const p = mathToScreen(x, 0, view, w, h);
+              ctx.moveTo(p.x, 0); ctx.lineTo(p.x, h);
+            }
+            for (let y = minStartY; y <= view.yMax; y += subY) {
+              const p = mathToScreen(0, y, view, w, h);
+              ctx.moveTo(0, p.y); ctx.lineTo(w, p.y);
+            }
+            ctx.stroke();
+
+            // 2. Draw major grid lines on top
             ctx.strokeStyle = theme.grid;
             ctx.lineWidth = 1;
+            ctx.beginPath();
             for (let x = startX; x <= view.xMax; x += gx) {
               const p = mathToScreen(x, 0, view, w, h);
-              ctx.beginPath(); ctx.moveTo(p.x, 0); ctx.lineTo(p.x, h); ctx.stroke();
+              ctx.moveTo(p.x, 0); ctx.lineTo(p.x, h);
             }
             for (let y = startY; y <= view.yMax; y += gy) {
               const p = mathToScreen(0, y, view, w, h);
-              ctx.beginPath(); ctx.moveTo(0, p.y); ctx.lineTo(w, p.y); ctx.stroke();
+              ctx.moveTo(0, p.y); ctx.lineTo(w, p.y);
             }
+            ctx.stroke();
           }
         }
 
@@ -1573,8 +1604,8 @@
 
     // ─── Dark mode ──────────────────────────────────────────────────
     const themeToggleBtn = document.getElementById('theme-toggle');
-    const LIGHT_CANVAS_THEME = { bg: '#ffffff', grid: '#e2e8f0', axis: '#475569', tick: '#64748b', poiFill: '#94a3b8', poiStroke: '#ffffff' };
-    const DARK_CANVAS_THEME = { bg: '#0f172a', grid: '#1e293b', axis: '#64748b', tick: '#94a3b8', poiFill: '#64748b', poiStroke: '#0f172a' };
+    const LIGHT_CANVAS_THEME = { bg: '#ffffff', grid: '#e2e8f0', minorGrid: '#f1f5f9', axis: '#475569', tick: '#64748b', poiFill: '#94a3b8', poiStroke: '#ffffff' };
+    const DARK_CANVAS_THEME = { bg: '#0f172a', grid: '#1e293b', minorGrid: '#162032', axis: '#64748b', tick: '#94a3b8', poiFill: '#64748b', poiStroke: '#0f172a' };
     const sunIcon = `<circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line>`;
     const moonIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
 
