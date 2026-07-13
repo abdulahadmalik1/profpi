@@ -8,6 +8,11 @@
   "display": "standalone",
   "orientation": "any",
   "lang": "en",
+  "categories": [
+    "education",
+    "utilities",
+    "productivity"
+  ],
   "background_color": "#ffffff",
   "theme_color": "#6366f1",
   "icons": [

@@ -7,26 +7,34 @@
   <title>Graphing Calculator — Free Online Function Plotter | profpi</title>
 
   <!-- Primary SEO -->
-  <meta name="description" content="Plot functions, trace points, zoom and pan, and explore math instantly in your browser with profpi's free online graphing calculator. No signup required.">
-  <meta name="keywords" content="graphing calculator, online graph plotter, function grapher, math visualizer, desmos alternative, plot equations online">
+  <meta name="description"
+    content="Plot functions, trace points, zoom and pan, and explore math instantly in your browser with profpi's free online graphing calculator. No signup required.">
+  <meta name="keywords"
+    content="graphing calculator, online graph plotter, function grapher, math visualizer, desmos alternative, plot equations online">
   <meta name="author" content="profpi">
-  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#6366f1">
   <link rel="canonical" href="https://profpi.app/tools/graphing-calculator/">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="profpi">
   <meta property="og:title" content="Graphing Calculator — Free Online Function Plotter | profpi">
-  <meta property="og:description" content="Plot functions, trace points, zoom and pan, and explore math instantly in your browser — free, fast, no signup required.">
+  <meta property="og:description"
+    content="Plot functions, trace points, zoom and pan, and explore math instantly in your browser — free, fast, no signup required.">
   <meta property="og:image" content="https://profpi.app/assets/images/logo.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="profpi logo">
   <meta property="og:url" content="https://profpi.app/tools/graphing-calculator/">
   <meta property="og:locale" content="en_US">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Graphing Calculator — Free Online Function Plotter | profpi">
-  <meta name="twitter:description" content="Plot functions, trace points, zoom and pan, and explore math instantly in your browser — free, fast, no signup required.">
+  <meta name="twitter:description"
+    content="Plot functions, trace points, zoom and pan, and explore math instantly in your browser — free, fast, no signup required.">
   <meta name="twitter:image" content="https://profpi.app/assets/images/logo.png">
+  <meta name="twitter:image:alt" content="profpi logo">
 
   <!-- Icons / PWA -->
   <link rel="icon" type="image/png" href="/assets/images/logo.png?v=2">
@@ -82,7 +90,7 @@
 
   <link rel="stylesheet" href="/css/tokens.css?v=3">
   <link rel="stylesheet" href="/css/style.css?v=3">
-  
+
   <!-- Vercel Web Analytics -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -110,7 +118,8 @@
           <h1>profpi</h1>
         </a>
       </div>
-      <button class="btn-icon mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close sidebar" style="display:none; margin-left: auto;">
+      <button class="btn-icon mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close sidebar"
+        style="display:none; margin-left: auto;">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -118,8 +127,10 @@
       </button>
     </div>
 
-    <div class="input-hint-banner" style="background: var(--card-active); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 8px 12px; margin: 8px 20px 4px; font-size: 0.75rem; color: var(--text-muted); text-align: center; line-height: 1.4;">
-      Tip: Use brackets for functions, e.g. <strong style="color: var(--text-main); font-family: var(--font-mono);">cos(x)</strong>
+    <div class="input-hint-banner"
+      style="background: var(--card-active); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 8px 12px; margin: 8px 20px 4px; font-size: 0.75rem; color: var(--text-muted); text-align: center; line-height: 1.4;">
+      Tip: Use brackets for functions, e.g. <strong
+        style="color: var(--text-main); font-family: var(--font-mono);">cos(x)</strong>
     </div>
 
     <div class="equations-container" id="eq-list">
@@ -130,8 +141,8 @@
     <div class="points-panel collapsed" id="points-panel">
       <button class="points-panel-toggle" id="points-toggle" type="button" aria-label="Toggle point plotter panel">
         <span class="points-panel-title"><span class="points-dot"></span>Point Plotter</span>
-        <svg class="points-chevron" width="14" height="14" fill="none" stroke="currentColor"
-          stroke-width="2.5" viewBox="0 0 24 24">
+        <svg class="points-chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+          viewBox="0 0 24 24">
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </button>
@@ -150,15 +161,16 @@
         <div class="pp-step" id="pp-step2">
           <div class="pp-x-row">
             <span class="pp-x-label">x =</span>
-            <input type="text" class="pp-x-input" id="points-x-input"
-              placeholder="0" inputmode="decimal" spellcheck="false" autocomplete="off">
+            <input type="text" class="pp-x-input" id="points-x-input" placeholder="0" inputmode="decimal"
+              spellcheck="false" autocomplete="off">
             <span class="pp-y-preview" id="points-y-preview"></span>
           </div>
           <div class="pp-error" id="points-x-error"></div>
 
           <!-- Clear footer (statically styled to prevent vertical shifting) -->
           <div id="pp-table-section" class="pp-table-footer">
-            <button class="pp-clear-btn" id="points-clear-btn" aria-label="Clear all plotted points">Clear all points</button>
+            <button class="pp-clear-btn" id="points-clear-btn" aria-label="Clear all plotted points">Clear all
+              points</button>
           </div>
         </div>
 
@@ -170,12 +182,14 @@
       </div>
     </div>
 
-    <div class="sidebar-actions" style="display: flex; flex-direction: column; gap: 10px; align-items: center; width: 100%;">
+    <div class="sidebar-actions"
+      style="display: flex; flex-direction: column; gap: 10px; align-items: center; width: 100%;">
       <button class="btn-primary" id="visualize-btn" style="width: 100%;">
         Visualize
       </button>
       <span style="font-size: 0.72rem; color: var(--text-muted); text-align: center; line-height: 1.4;">
-        For any suggestions or improvements, please email <a href="mailto:malikahad017@gmail.com" style="color: var(--accent); text-decoration: none; font-weight: 600;">malikahad017@gmail.com</a>
+        For any suggestions or improvements, please email <a href="mailto:malikahad017@gmail.com"
+          style="color: var(--accent); text-decoration: none; font-weight: 600;">malikahad017@gmail.com</a>
       </span>
     </div>
   </div>
