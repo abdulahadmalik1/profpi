@@ -786,7 +786,7 @@
 
       _hoverAt(sx, sy) {
         if (!this.onHover) return;
-        let best = 16;
+        let best = 48; // Snapping threshold: increased from 16px to 48px to allow easy, forgiving taps on mobile lines
         let hit = null;
         for (const group of this._lastRender) {
           for (const poi of group.pois) {
