@@ -1498,7 +1498,7 @@
 
     sidebarToggleBtn.addEventListener('click', () => {
       const collapsed = sidebar.classList.toggle('collapsed');
-      sidebarIcon.innerHTML = collapsed ? hamburgerPath : closePath;
+      sidebarIcon.innerHTML = hamburgerPath;
       // Trigger resize so the canvas redraws to fill new space
       setTimeout(() => window.dispatchEvent(new Event('resize')), 320);
     });
