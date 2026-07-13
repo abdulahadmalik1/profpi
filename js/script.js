@@ -634,7 +634,10 @@
         this._onPointerMove = (e) => this._pointerMove(e);
         this._onPointerUp = (e) => this._pointerUp(e);
         this._onWheel = (e) => this._wheel(e);
-        this._onLeave = () => { if (this.onHover) this.onHover(null); };
+        this._onLeave = (e) => {
+          if (e && e.pointerType !== 'mouse') return; // Do not hide tooltip when touch/pen leaves screen
+          if (this.onHover) this.onHover(null);
+        };
 
         c.addEventListener('pointerdown', this._onPointerDown);
         window.addEventListener('pointermove', this._onPointerMove);
