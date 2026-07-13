@@ -229,15 +229,6 @@
       return nice * 10 ** exp;
     }
 
-    function getGridSubdivisions(spacing) {
-      const exp = Math.floor(Math.log10(spacing));
-      const normalized = spacing / 10 ** exp;
-      if (Math.abs(normalized - 1) < 0.1) return 5;
-      if (Math.abs(normalized - 2) < 0.1) return 4;
-      if (Math.abs(normalized - 5) < 0.1) return 5;
-      return 5;
-    }
-
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
     const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 
@@ -541,23 +532,6 @@
         this._markDirty(true);
       }
 
-      _enforceIsotropicView(view, width, height) {
-        if (!width || !height) return view;
-        const cx = (view.xMin + view.xMax) / 2;
-        const cy = (view.yMin + view.yMax) / 2;
-        const currentScaleX = (view.xMax - view.xMin) / width;
-        const currentScaleY = (view.yMax - view.yMin) / height;
-        const scale = Math.max(currentScaleX, currentScaleY);
-        const rx = width * scale / 2;
-        const ry = height * scale / 2;
-        return {
-          xMin: cx - rx,
-          xMax: cx + rx,
-          yMin: cy - ry,
-          yMax: cy + ry
-        };
-      }
-
       _compile(eq) {
         try {
           const { fn, implicit } = compileEquation(eq.text);
@@ -565,18 +539,14 @@
         } catch (err) { eq.fn = null; eq.implicit = false; eq.error = err.message; }
       }
 
-      resetView(animate = true) {
-        const baseView = { xMin: -10, xMax: 10, yMin: -10, yMax: 10 };
-        this.setView(this._enforceIsotropicView(baseView, this._width, this._height), animate);
-      }
+      resetView(animate = true) { this.setView({ xMin: -10, xMax: 10, yMin: -6, yMax: 6 }, animate); }
 
       setView(next, animate = false, duration = 260) {
         if (this._viewAnimFrame) {
           cancelAnimationFrame(this._viewAnimFrame);
           this._viewAnimFrame = null;
         }
-        const isotropicNext = this._enforceIsotropicView(next, this._width, this._height);
-        if (!animate) { this.view = { ...isotropicNext }; this._markDirty(true); return; }
+        if (!animate) { this.view = { ...next }; this._markDirty(true); return; }
         const from = { ...this.view };
         let start = null;
         this._setStatus('animating');
@@ -585,10 +555,10 @@
           const t = clamp((now - start) / duration, 0, 1);
           const e = easeInOutCubic(t);
           this.view = {
-            xMin: from.xMin + (isotropicNext.xMin - from.xMin) * e,
-            xMax: from.xMax + (isotropicNext.xMax - from.xMax) * e,
-            yMin: from.yMin + (isotropicNext.yMin - from.yMin) * e,
-            yMax: from.yMax + (isotropicNext.yMax - from.yMax) * e,
+            xMin: from.xMin + (next.xMin - from.xMin) * e,
+            xMax: from.xMax + (next.xMax - from.xMax) * e,
+            yMin: from.yMin + (next.yMin - from.yMin) * e,
+            yMax: from.yMax + (next.yMax - from.yMax) * e,
           };
           this._quality = 'low';
           this._dirty = true;
@@ -602,9 +572,17 @@
         // Always zoom around the current viewport center
         const cx = (this.view.xMin + this.view.xMax) / 2;
         const cy = (this.view.yMin + this.view.yMax) / 2;
-        const dx = (this.view.xMax - this.view.xMin) * factor / 2;
-        const dy = (this.view.yMax - this.view.yMin) * factor / 2;
-        this.setView({ xMin: cx - dx, xMax: cx + dx, yMin: cy - dy, yMax: cy + dy }, true);
+        const nextXMin = cx - (cx - this.view.xMin) * factor;
+        const nextXMax = cx + (this.view.xMax - cx) * factor;
+        const nextYMin = cy - (cy - this.view.yMin) * factor;
+        const nextYMax = cy + (this.view.yMax - cy) * factor;
+        const rangeX = nextXMax - nextXMin;
+        const rangeY = nextYMax - nextYMin;
+        if (rangeX > 1e12 || rangeY > 1e12 || rangeX < 1e-12 || rangeY < 1e-12) return;
+        this.view = { xMin: nextXMin, xMax: nextXMax, yMin: nextYMin, yMax: nextYMax };
+        this._quality = 'low';
+        this._markDirty(true);
+        this._settle();
       }
 
       zoomStep(factor) {
@@ -612,6 +590,7 @@
         const cy = (this.view.yMin + this.view.yMax) / 2;
         const rangeX = (this.view.xMax - this.view.xMin) * factor;
         const rangeY = (this.view.yMax - this.view.yMin) * factor;
+        if (rangeX > 1e12 || rangeY > 1e12 || rangeX < 1e-12 || rangeY < 1e-12) return;
         this.setView({
           xMin: cx - rangeX / 2, xMax: cx + rangeX / 2,
           yMin: cy - rangeY / 2, yMax: cy + rangeY / 2
@@ -646,14 +625,6 @@
         this._height = Math.max(1, rect.height);
         this.canvas.width = Math.round(this._width * this._dpr);
         this.canvas.height = Math.round(this._height * this._dpr);
-        
-        if (!this._initialIsotropicDone) {
-          const baseView = { xMin: -10, xMax: 10, yMin: -10, yMax: 10 };
-          this.view = this._enforceIsotropicView(baseView, this._width, this._height);
-          this._initialIsotropicDone = true;
-        } else {
-          this.view = this._enforceIsotropicView(this.view, this._width, this._height);
-        }
         this._markDirty(true);
       }
 
@@ -964,38 +935,16 @@
               }
             }
           } else {
-            // 1. Draw minor grid lines (blocks) first so they appear underneath
-            const subX = gx / getGridSubdivisions(gx);
-            const subY = gy / getGridSubdivisions(gy);
-            const minStartX = Math.ceil(view.xMin / subX) * subX;
-            const minStartY = Math.ceil(view.yMin / subY) * subY;
-
-            ctx.strokeStyle = theme.minorGrid || (theme.bg === '#0f172a' ? '#162032' : '#f1f5f9');
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            for (let x = minStartX; x <= view.xMax; x += subX) {
-              const p = mathToScreen(x, 0, view, w, h);
-              ctx.moveTo(p.x, 0); ctx.lineTo(p.x, h);
-            }
-            for (let y = minStartY; y <= view.yMax; y += subY) {
-              const p = mathToScreen(0, y, view, w, h);
-              ctx.moveTo(0, p.y); ctx.lineTo(w, p.y);
-            }
-            ctx.stroke();
-
-            // 2. Draw major grid lines on top
             ctx.strokeStyle = theme.grid;
             ctx.lineWidth = 1;
-            ctx.beginPath();
             for (let x = startX; x <= view.xMax; x += gx) {
               const p = mathToScreen(x, 0, view, w, h);
-              ctx.moveTo(p.x, 0); ctx.lineTo(p.x, h);
+              ctx.beginPath(); ctx.moveTo(p.x, 0); ctx.lineTo(p.x, h); ctx.stroke();
             }
             for (let y = startY; y <= view.yMax; y += gy) {
               const p = mathToScreen(0, y, view, w, h);
-              ctx.moveTo(0, p.y); ctx.lineTo(w, p.y);
+              ctx.beginPath(); ctx.moveTo(0, p.y); ctx.lineTo(w, p.y); ctx.stroke();
             }
-            ctx.stroke();
           }
         }
 
@@ -1624,8 +1573,8 @@
 
     // ─── Dark mode ──────────────────────────────────────────────────
     const themeToggleBtn = document.getElementById('theme-toggle');
-    const LIGHT_CANVAS_THEME = { bg: '#ffffff', grid: '#cbd5e1', minorGrid: '#f1f5f9', axis: '#334155', tick: '#475569', poiFill: '#94a3b8', poiStroke: '#ffffff' };
-    const DARK_CANVAS_THEME = { bg: '#0f172a', grid: '#334155', minorGrid: '#1e293b', axis: '#94a3b8', tick: '#cbd5e1', poiFill: '#64748b', poiStroke: '#0f172a' };
+    const LIGHT_CANVAS_THEME = { bg: '#ffffff', grid: '#e2e8f0', axis: '#475569', tick: '#64748b', poiFill: '#94a3b8', poiStroke: '#ffffff' };
+    const DARK_CANVAS_THEME = { bg: '#0f172a', grid: '#1e293b', axis: '#64748b', tick: '#94a3b8', poiFill: '#64748b', poiStroke: '#0f172a' };
     const sunIcon = `<circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line>`;
     const moonIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
 
