@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://profpi.app/sitemap.xml
+Sitemap: https://www.profpi.com/sitemap.xml
