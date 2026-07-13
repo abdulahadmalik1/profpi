@@ -14,6 +14,10 @@
     html[data-theme="dark"] #tooltip {
       background: rgba(30, 41, 59, 0.95);
     }
+    
+    html[data-theme="dark"] #hover-dot {
+      box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.8);
+    }
 
     html[data-theme="dark"] .ac-dropdown {
       background: #1e293b;
@@ -1195,6 +1199,21 @@
       display: none;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       z-index: 20;
+    }
+
+    #hover-dot {
+      position: absolute;
+      pointer-events: none;
+      width: 12px;
+      height: 12px;
+      background: var(--bg-main);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: none;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+      z-index: 19;
+      transition: top 0.05s linear, left 0.05s linear;
     }
 
     /* ── Preview Modal (shown on Visualize, before entering interactive view) ── */

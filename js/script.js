@@ -980,6 +980,7 @@
 
     const canvas = document.getElementById('c');
     const tooltip = document.getElementById('tooltip');
+    const hoverDot = document.getElementById('hover-dot');
     const eqList = document.getElementById('eq-list');
 
     // Create the engine instance
@@ -987,6 +988,7 @@
       onHover(hit) {
         if (!hit) {
           tooltip.style.display = 'none';
+          if (hoverDot) hoverDot.style.display = 'none';
           return;
         }
         tooltip.style.display = 'block';
@@ -994,6 +996,13 @@
         tooltip.style.top = `${hit.screenY - 15}px`;
         tooltip.style.borderColor = hit.color;
         tooltip.textContent = hit.label;
+        
+        if (hoverDot) {
+          hoverDot.style.display = 'block';
+          hoverDot.style.left = `${hit.screenX}px`;
+          hoverDot.style.top = `${hit.screenY}px`;
+          hoverDot.style.borderColor = hit.color;
+        }
       }
     });
 
