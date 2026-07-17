@@ -148,8 +148,7 @@
       <div class="hero-copy">
         <p class="eyebrow">Free &amp; browser-based</p>
         <h1>Math tools that just work.</h1>
-        <p class="hero-sub">No signups, no clutter, no installs. profpi's tools open instantly in your browser and get
-          out of your way — starting with a fast, interactive graphing calculator.</p>
+        <p class="hero-sub">No signups, no clutter, no installs. A suite of 12+ free online calculators, simulators, and solvers, starting with a fast, interactive graphing calculator.</p>
         <div class="hero-actions">
           <a href="/tools/graphing-calculator/" class="btn-hero-primary">
             Open Graphing Calculator
@@ -158,7 +157,7 @@
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
           </a>
-          <a href="#features" class="btn-hero-secondary">See what it can do</a>
+          <a href="#tools" class="btn-hero-secondary">Browse All 12+ Tools</a>
         </div>
       </div>
 
@@ -254,9 +253,10 @@
     <!-- Tools -->
     <section class="tools" id="tools">
       <h2>Tools</h2>
-      <p class="section-sub">One tool today. Built to grow into a full suite.</p>
+      <p class="section-sub">Choose from our suite of 12+ calculators, simulators, and visual solvers.</p>
 
       <div class="tools-grid">
+        <!-- 1. Graphing Calculator -->
         <a href="/tools/graphing-calculator/" class="tool-card">
           <div class="tool-card-visual">
             <svg viewBox="0 0 200 120" width="100%" height="100%">
@@ -287,18 +287,262 @@
           </div>
         </a>
 
-        <div class="tool-card tool-card-soon">
-          <div class="tool-card-visual tool-card-visual-soon">
-            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="9"></circle>
-              <path d="M12 7v5l3 3"></path>
+        <!-- 2. Symbol Dictionary -->
+        <a href="/tools/symbol-dictionary/" class="tool-card">
+          <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-size: 2.2rem; gap: 14px; font-weight: 700; color: var(--accent);">
+            <span>Σ</span><span>∫</span><span>θ</span><span>π</span>
+          </div>
+          <div class="tool-card-body">
+            <h3>Symbol Dictionary &amp; LaTeX</h3>
+            <p>Search math symbol meanings, copy LaTeX codes, and test expressions in the live KaTeX editor.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 3. Fraction Visualizer -->
+        <a href="/tools/fraction-visualizer/" class="tool-card">
+          <div class="tool-card-visual">
+            <svg viewBox="0 0 200 120" width="100%" height="100%">
+              <circle cx="60" cy="60" r="35" fill="none" stroke="var(--border-color)" stroke-width="2"></circle>
+              <!-- Pie segment filled -->
+              <path d="M 60 60 L 60 25 A 35 35 0 0 1 95 60 Z" fill="#6366f1"></path>
+              
+              <circle cx="140" cy="60" r="35" fill="none" stroke="var(--border-color)" stroke-width="2"></circle>
+              <!-- Half filled -->
+              <path d="M 140 60 L 140 25 A 35 35 0 0 1 140 95 Z" fill="#06b6d4"></path>
             </svg>
           </div>
           <div class="tool-card-body">
-            <h3>More tools coming soon</h3>
-            <p>We're building out the rest of the profpi toolbox next.</p>
+            <h3>Fraction Visualizer</h3>
+            <p>Add, subtract, compare, and divide fractions step-by-step with interactive pie and bar models.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
           </div>
-        </div>
+        </a>
+
+        <!-- 4. Equation Finder -->
+        <a href="/tools/equation-finder/" class="tool-card">
+          <div class="tool-card-visual">
+            <svg viewBox="0 0 200 120" width="100%" height="100%">
+              <g stroke="var(--border-color)" stroke-width="0.5" opacity="0.6">
+                <line x1="10" y1="0" x2="10" y2="120"></line>
+                <line x1="50" y1="0" x2="50" y2="120"></line>
+                <line x1="90" y1="0" x2="90" y2="120"></line>
+                <line x1="130" y1="0" x2="130" y2="120"></line>
+                <line x1="170" y1="0" x2="170" y2="120"></line>
+                <line x1="0" y1="20" x2="200" y2="20"></line>
+                <line x1="0" y1="60" x2="200" y2="60"></line>
+                <line x1="0" y1="100" x2="200" y2="100"></line>
+              </g>
+              <!-- Regression line -->
+              <line x1="20" y1="100" x2="180" y2="20" stroke="var(--accent)" stroke-width="3"></line>
+              <!-- Data points -->
+              <circle cx="40" cy="95" r="4.5" fill="#06b6d4"></circle>
+              <circle cx="80" cy="72" r="4.5" fill="#06b6d4"></circle>
+              <circle cx="120" cy="48" r="4.5" fill="#06b6d4"></circle>
+              <circle cx="160" cy="28" r="4.5" fill="#06b6d4"></circle>
+            </svg>
+          </div>
+          <div class="tool-card-body">
+            <h3>Equation Finder</h3>
+            <p>Fit a curve (linear, quadratic, exponential, logarithmic) to your coordinate points and find the best formula.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 5. Geometry Solver -->
+        <a href="/tools/geometry-solver/" class="tool-card">
+          <div class="tool-card-visual">
+            <svg viewBox="0 0 200 120" width="100%" height="100%">
+              <!-- A triangle in visual container -->
+              <polygon points="40,95 160,95 100,25" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"></polygon>
+              <circle cx="100" cy="68" r="27" fill="none" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="3"></circle>
+            </svg>
+          </div>
+          <div class="tool-card-body">
+            <h3>Geometry Solver</h3>
+            <p>Solve angles, sides, areas, and perimeters of triangles, circles, and rectangles with to-scale drawings.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 6. Number Pattern Solver -->
+        <a href="/tools/number-pattern-solver/" class="tool-card">
+          <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; color: var(--accent);">
+            <span>3</span><span>→</span><span>7</span><span>→</span><span>11</span><span>→</span><span>15</span>
+          </div>
+          <div class="tool-card-body">
+            <h3>Number Pattern Solver</h3>
+            <p>Solve sequence rules (arithmetic, geometric, quadratic, Fibonacci) to get explicit and recursive formulas.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 7. Unit Circle Explorer -->
+        <a href="/tools/unit-circle-explorer/" class="tool-card">
+          <div class="tool-card-visual">
+            <svg viewBox="0 0 200 120" width="100%" height="100%">
+              <circle cx="100" cy="60" r="40" fill="none" stroke="var(--border-color)" stroke-width="2"></circle>
+              <line x1="50" y1="60" x2="150" y2="60" stroke="var(--border-color)" stroke-width="1"></line>
+              <line x1="100" y1="15" x2="100" y2="105" stroke="var(--border-color)" stroke-width="1"></line>
+              <!-- Terminal ray at 45 deg -->
+              <line x1="100" y1="60" x2="128.3" y2="31.7" stroke="var(--accent)" stroke-width="2.5"></line>
+              <circle cx="128.3" cy="31.7" r="4" fill="var(--accent)"></circle>
+            </svg>
+          </div>
+          <div class="tool-card-body">
+            <h3>Unit Circle Explorer</h3>
+            <p>Visualize trig functions, drag points to change angles, and snap to common radian/degree values.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 8. Division Visualizer -->
+        <a href="/tools/division-visualizer/" class="tool-card">
+          <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; color: var(--accent);">
+            <span>12 ┌───</span>
+          </div>
+          <div class="tool-card-body">
+            <h3>Division Visualizer</h3>
+            <p>Solve long division problems step-by-step with structured grids showing subtraction lines and remainders.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 9. Daily Puzzle -->
+        <a href="/tools/daily-puzzle/" class="tool-card">
+          <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+            <span>🧩</span>
+          </div>
+          <div class="tool-card-body">
+            <h3>Daily Math Puzzle</h3>
+            <p>Solve today's math riddle! Test your skills, verify answers instantly, and share results with friends.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 10. Probability Simulator -->
+        <a href="/tools/probability-simulator/" class="tool-card">
+          <div class="tool-card-visual">
+            <svg viewBox="0 0 200 120" width="100%" height="100%">
+              <circle cx="70" cy="60" r="22" fill="#f59e0b" stroke="#d97706" stroke-width="3"></circle>
+              <!-- Heads label -->
+              <text x="70" y="65" text-anchor="middle" fill="#fff" font-weight="800" font-size="16px" font-family="sans-serif">H</text>
+              
+              <!-- Die visual -->
+              <rect x="115" y="38" width="44" height="44" rx="6" fill="#fff" stroke="var(--border-color)" stroke-width="2"></rect>
+              <circle cx="127" cy="50" r="3.5" fill="#000"></circle>
+              <circle cx="147" cy="70" r="3.5" fill="#000"></circle>
+              <circle cx="137" cy="60" r="3.5" fill="#000"></circle>
+            </svg>
+          </div>
+          <div class="tool-card-body">
+            <h3>Probability Simulator</h3>
+            <p>Flip virtual coins, roll dice, and draw cards. Compare experimental rates to theoretical percentages.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 11. Base Converter -->
+        <a href="/tools/base-converter/" class="tool-card">
+          <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 800; color: var(--accent);">
+            <span>1010<sub>2</sub></span><span>⇄</span><span>10<sub>10</sub></span>
+          </div>
+          <div class="tool-card-body">
+            <h3>Base Converter</h3>
+            <p>Convert numbers between binary, octal, decimal, and hexadecimal with step-by-step divisions.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 12. Mental Math Trainer -->
+        <a href="/tools/mental-math-trainer/" class="tool-card">
+          <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+            <span>⏱️</span>
+          </div>
+          <div class="tool-card-body">
+            <h3>Mental Math Trainer</h3>
+            <p>Test your arithmetic calculation speed. Solve equations against a 60-second timer challenge.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 13. Word Problem Diagrammer -->
+        <a href="/tools/word-problem-diagrammer/" class="tool-card">
+          <div class="tool-card-visual">
+            <svg viewBox="0 0 200 120" width="100%" height="100%">
+              <rect x="20" y="30" width="60" height="20" fill="none" stroke="var(--accent)" stroke-width="2" rx="2"></rect>
+              <rect x="80" y="30" width="60" height="20" fill="none" stroke="var(--accent)" stroke-width="2" rx="2"></rect>
+              <rect x="20" y="70" width="40" height="20" fill="none" stroke="#06b6d4" stroke-width="2" rx="2"></rect>
+              <rect x="60" y="70" width="40" height="20" fill="none" stroke="#06b6d4" stroke-width="2" rx="2"></rect>
+              <rect x="100" y="70" width="40" height="20" fill="none" stroke="#06b6d4" stroke-width="2" rx="2"></rect>
+            </svg>
+          </div>
+          <div class="tool-card-body">
+            <h3>Word Problem Diagrammer</h3>
+            <p>Generate to-scale tape diagrams and bar models for word problem ratios. Download as SVG/PNG.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
       </div>
     </section>
   </main>
@@ -313,6 +557,18 @@
       <nav class="footer-nav">
         <a href="/">Home</a>
         <a href="/tools/graphing-calculator/">Graphing Calculator</a>
+        <a href="/tools/symbol-dictionary/">Symbol Dictionary</a>
+        <a href="/tools/fraction-visualizer/">Fraction Visualizer</a>
+        <a href="/tools/equation-finder/">Equation Finder</a>
+        <a href="/tools/geometry-solver/">Geometry Solver</a>
+        <a href="/tools/number-pattern-solver/">Pattern Solver</a>
+        <a href="/tools/unit-circle-explorer/">Unit Circle</a>
+        <a href="/tools/division-visualizer/">Division Visualizer</a>
+        <a href="/tools/daily-puzzle/">Daily Puzzle</a>
+        <a href="/tools/probability-simulator/">Probability Sim</a>
+        <a href="/tools/base-converter/">Base Converter</a>
+        <a href="/tools/mental-math-trainer/">Mental Math</a>
+        <a href="/tools/word-problem-diagrammer/">Tape Diagrammer</a>
       </nav>
       <p class="footer-copy">© <span id="footer-year"></span> profpi. All rights reserved.</p>
     </div>

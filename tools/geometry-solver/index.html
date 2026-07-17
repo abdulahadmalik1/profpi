@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('profpi-theme');
+      var theme = saved || 'light';
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <title>Triangle Solver & Geometry Calculator with Diagram | profpi</title>
+
+  <!-- Primary SEO -->
+  <meta name="description"
+    content="Free geometry calculator. Solve triangles (SSS, SAS, ASA, AAS), circles, and rectangles step-by-step. Generates a pixel-perfect, to-scale, downloadable diagram.">
+  <meta name="keywords" content="triangle solver with diagram, geometry calculator, circle solver, rectangle solver, sss triangle solver, download geometry diagram">
+  <meta name="author" content="profpi">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://www.profpi.com/tools/geometry-solver/">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Triangle Solver & Geometry Calculator",
+    "url": "https://www.profpi.com/tools/geometry-solver/",
+    "description": "An interactive geometry calculator that solves triangle coordinates, circles, rectangles, and renders to-scale downloadable diagrams.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="profpi">
+  <meta property="og:title" content="Triangle Solver & Geometry Calculator with Diagram | profpi">
+  <meta property="og:description"
+    content="Solve triangles, circles, and rectangles instantly. Features step-by-step calculations and downloadable vector diagrams.">
+  <meta property="og:image" content="https://www.profpi.com/assets/images/logo.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="profpi logo">
+  <meta property="og:url" content="https://www.profpi.com/tools/geometry-solver/">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Triangle Solver & Geometry Calculator with Diagram | profpi">
+  <meta name="twitter:description"
+    content="Solve triangles, circles, and rectangles instantly. Features step-by-step calculations and downloadable vector diagrams.">
+  <meta name="twitter:image" content="https://www.profpi.com/assets/images/logo.png">
+  <meta name="twitter:image:alt" content="profpi logo">
+
+  <!-- Icons / PWA -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/icon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/icon-96.png">
+  <link class="manifest" rel="icon" type="image/png" sizes="192x192" href="/assets/images/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/images/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/tools.css">
+
+  <style>
+    .shape-selector-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .shape-btn {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    
+    .shape-btn.active, .shape-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    
+    .triangle-inputs, .circle-inputs, .rectangle-inputs {
+      display: none;
+    }
+    
+    .triangle-inputs.active, .circle-inputs.active, .rectangle-inputs.active {
+      display: block;
+    }
+    
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    
+    .results-table td {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.95rem;
+    }
+    
+    .results-table td:last-child {
+      text-align: right;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    
+    .download-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+  </style>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" aria-label="profpi home">
+        <img src="/assets/images/logo.png?v=2" alt="profpi logo" class="brand-logo" width="36" height="36">
+        <span class="brand-name">profpi</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav">
+        <a href="/#tools">Tools</a>
+        <a href="/#features">Why profpi</a>
+        <a href="/tools/graphing-calculator/" class="nav-cta">Open Graphing Calculator</a>
+      </nav>
+
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+        <svg id="theme-toggle-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+          viewBox="0 0 24 24"></svg>
+      </button>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="tool-page-container">
+    <div class="tool-header">
+      <p class="eyebrow">Geometry Suite</p>
+      <h1>Geometry Solver</h1>
+      <p class="tool-description">
+        Solve triangles, circles, and rectangles. Input known side lengths, angles, or dimensions, then instantly download a to-scale labeled diagram.
+      </p>
+    </div>
+
+    <div class="tool-grid">
+      <!-- Left sidebar panel -->
+      <div class="tool-panel tool-card">
+        <h2>Select Shape</h2>
+        <div class="shape-selector-group">
+          <button class="shape-btn active" id="btn-shape-triangle">Triangle</button>
+          <button class="shape-btn" id="btn-shape-circle">Circle</button>
+          <button class="shape-btn" id="btn-shape-rectangle">Rectangle</button>
+        </div>
+        
+        <div class="error-alert" id="error-alert">Invalid inputs.</div>
+
+        <!-- 1. Triangle Inputs -->
+        <div class="triangle-inputs active" id="inputs-triangle">
+          <div class="form-group">
+            <label for="tri-method-select">Input Method</label>
+            <select class="input-control" id="tri-method-select" aria-label="Triangle Input Type">
+              <option value="SSS">3 Sides (SSS)</option>
+              <option value="SAS">2 Sides &amp; Included Angle (SAS)</option>
+              <option value="ASA">2 Angles &amp; Included Side (ASA)</option>
+              <option value="AAS">2 Angles &amp; Opposite Side (AAS)</option>
+            </select>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group" id="group-tri-a">
+              <label id="lbl-tri-a" for="tri-a">Side a</label>
+              <input type="number" step="any" class="input-control" id="tri-a" value="3" aria-label="Triangle Side a">
+            </div>
+            <div class="form-group" id="group-tri-b">
+              <label id="lbl-tri-b" for="tri-b">Side b</label>
+              <input type="number" step="any" class="input-control" id="tri-b" value="4" aria-label="Triangle Side b">
+            </div>
+            <div class="form-group" id="group-tri-c">
+              <label id="lbl-tri-c" for="tri-c">Side c</label>
+              <input type="number" step="any" class="input-control" id="tri-c" value="5" aria-label="Triangle Side c">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Circle Inputs -->
+        <div class="circle-inputs" id="inputs-circle">
+          <div class="form-group">
+            <label for="circle-type-select">Known Value</label>
+            <select class="input-control" id="circle-type-select" aria-label="Circle Input Type">
+              <option value="radius">Radius</option>
+              <option value="diameter">Diameter</option>
+              <option value="circumference">Circumference</option>
+              <option value="area">Area</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="circle-val" id="lbl-circle-val">Value</label>
+            <input type="number" step="any" class="input-control" id="circle-val" value="5" aria-label="Circle dimension value">
+          </div>
+        </div>
+
+        <!-- 3. Rectangle Inputs -->
+        <div class="rectangle-inputs" id="inputs-rectangle">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="rect-w">Width (w)</label>
+              <input type="number" step="any" class="input-control" id="rect-w" value="8" aria-label="Rectangle width">
+            </div>
+            <div class="form-group">
+              <label for="rect-h">Height (h)</label>
+              <input type="number" step="any" class="input-control" id="rect-h" value="5" aria-label="Rectangle height">
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="solve-btn" style="margin-top: 12px;">
+          Solve &amp; Draw
+        </button>
+      </div>
+
+      <!-- Right main workspace -->
+      <div class="tool-output">
+        <!-- Diagram Preview -->
+        <div class="result-card">
+          <h2>To-Scale Diagram</h2>
+          <div class="visual-container" id="diagram-wrapper">
+            <!-- Dynamically generated SVG goes here -->
+          </div>
+          <div class="download-actions">
+            <button class="btn-secondary" id="btn-download-svg" style="padding: 8px 14px; font-size: 0.85rem;">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download SVG
+            </button>
+            <button class="btn-primary" id="btn-download-png" style="padding: 8px 14px; font-size: 0.85rem; width: auto;">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download PNG
+            </button>
+          </div>
+        </div>
+
+        <!-- Calculated Values -->
+        <div class="result-card">
+          <h2>Calculated Geometry Properties</h2>
+          <table class="results-table">
+            <tbody id="results-tbody">
+              <!-- Result listings populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related tools cross-linking -->
+    <div class="tool-cross-links">
+      <h3>Other Math Tools</h3>
+      <div class="cross-links-grid">
+        <a href="/tools/graphing-calculator/" class="cross-link-card">
+          <span>Graphing Calculator</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a href="/tools/equation-finder/" class="cross-link-card">
+          <span>Equation Finder</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a href="/tools/symbol-dictionary/" class="cross-link-card">
+          <span>Symbol Dictionary</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="/assets/images/logo.png?v=2" alt="profpi logo" width="24" height="24">
+        <span>profpi</span>
+      </div>
+      <nav class="footer-nav">
+        <a href="/">Home</a>
+        <a href="/tools/graphing-calculator/">Graphing Calculator</a>
+      </nav>
+      <p class="footer-copy">© <span id="footer-year"></span> profpi. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/home.js" defer></script>
+  <script src="/js/geometry-solver.js" defer></script>
+</body>
+
+</html>

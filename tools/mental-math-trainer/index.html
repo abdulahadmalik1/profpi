@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('profpi-theme');
+      var theme = saved || 'light';
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <title>Mental Math Speed Trainer & Quiz | profpi</title>
+
+  <!-- Primary SEO -->
+  <meta name="description"
+    content="Test your mental math speed. Interactive speed trainer for addition, subtraction, multiplication, and division with difficulty levels, timer challenges, and streak scores.">
+  <meta name="keywords" content="mental math speed trainer, math speed test, practice mental arithmetic, math quiz online, speed math game">
+  <meta name="author" content="profpi">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://www.profpi.com/tools/mental-math-trainer/">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Mental Math Speed Trainer & Quiz",
+    "url": "https://www.profpi.com/tools/mental-math-trainer/",
+    "description": "An interactive math speed drill application that trains users against a 60-second timer on mixed arithmetic problems.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="profpi">
+  <meta property="og:title" content="Mental Math Speed Trainer & Quiz | profpi">
+  <meta property="og:description"
+    content="Train your brain with speed math. Solve equations against the clock to build streak multipliers.">
+  <meta property="og:image" content="https://www.profpi.com/assets/images/logo.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="profpi logo">
+  <meta property="og:url" content="https://www.profpi.com/tools/mental-math-trainer/">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mental Math Speed Trainer & Quiz | profpi">
+  <meta name="twitter:description"
+    content="Train your brain with speed math. Solve equations against the clock to build streak multipliers.">
+  <meta name="twitter:image" content="https://www.profpi.com/assets/images/logo.png">
+  <meta name="twitter:image:alt" content="profpi logo">
+
+  <!-- Icons / PWA -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/icon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/icon-96.png">
+  <link class="manifest" rel="icon" type="image/png" sizes="192x192" href="/assets/images/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/images/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/tools.css">
+
+  <style>
+    .trainer-flashcard {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--card-active);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 40px 24px;
+      text-align: center;
+      min-height: 200px;
+    }
+    
+    .equation-display {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .stat-badge-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .stat-badge {
+      flex: 1;
+      padding: 10px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+    
+    .stat-badge-num {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .stat-badge-lbl {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    
+    .wrong-answers-list {
+      margin-top: 14px;
+      color: var(--danger);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      padding-left: 20px;
+    }
+    
+    .wrong-answers-list li span {
+      color: var(--text-main);
+    }
+  </style>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" aria-label="profpi home">
+        <img src="/assets/images/logo.png?v=2" alt="profpi logo" class="brand-logo" width="36" height="36">
+        <span class="brand-name">profpi</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav">
+        <a href="/#tools">Tools</a>
+        <a href="/#features">Why profpi</a>
+        <a href="/tools/graphing-calculator/" class="nav-cta">Open Graphing Calculator</a>
+      </nav>
+
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+        <svg id="theme-toggle-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+          viewBox="0 0 24 24"></svg>
+      </button>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="tool-page-container">
+    <div class="tool-header">
+      <p class="eyebrow">Algebraic Suite</p>
+      <h1>Mental Math speed Trainer</h1>
+      <p class="tool-description">
+        Train your brain and calculate faster. Select your arithmetic operations and difficulty level below, then start the 60-second speed challenge.
+      </p>
+    </div>
+
+    <div class="tool-grid">
+      <!-- Left sidebar panel -->
+      <div class="tool-panel tool-card">
+        <h2>Drill Configuration</h2>
+
+        <div class="form-group">
+          <label for="op-drill-select">Operations</label>
+          <select class="input-control" id="op-drill-select" aria-label="Math drill operator selector">
+            <option value="mixed">Mixed (All Operators)</option>
+            <option value="+">Addition (+)</option>
+            <option value="-">Subtraction (-)</option>
+            <option value="*">Multiplication (&times;)</option>
+            <option value="/">Division (&divide;)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="diff-drill-select">Difficulty Level</label>
+          <select class="input-control" id="diff-drill-select" aria-label="Math drill difficulty selector">
+            <option value="easy" selected>Easy (Numbers 1-10)</option>
+            <option value="medium">Medium (Numbers 10-50)</option>
+            <option value="hard">Hard (Numbers 10-100)</option>
+          </select>
+        </div>
+
+        <button class="btn-primary" id="start-game-btn" style="margin-bottom: 12px;">
+          Start Speed Game
+        </button>
+        <button class="btn-secondary" id="stop-game-btn" style="width: 100%; border-color: var(--danger); color: var(--danger);" disabled>
+          Reset Game
+        </button>
+      </div>
+
+      <!-- Right main workspace -->
+      <div class="tool-output">
+        <!-- Game Stats row -->
+        <div class="stat-badge-row">
+          <div class="stat-badge">
+            <div class="stat-badge-num" id="stat-time">60</div>
+            <div class="stat-badge-lbl">Seconds Left</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-badge-num" id="stat-score">0</div>
+            <div class="stat-badge-lbl">Score</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-badge-num" id="stat-streak">0</div>
+            <div class="stat-badge-lbl">Streak</div>
+          </div>
+        </div>
+
+        <!-- Interactive Flashcard workspace -->
+        <div class="trainer-flashcard">
+          <!-- Game welcome / game card -->
+          <div id="game-welcome-view" style="display: block; text-align: center;">
+            <span style="font-size: 3rem; display:block; margin-bottom: 12px;">⏱️</span>
+            <h3>Ready to test your math speed?</h3>
+            <p class="tool-description" style="margin: 8px 0 20px;">Configure your settings on the left and click start to begin.</p>
+          </div>
+
+          <div id="game-active-view" style="display: none; width: 100%;">
+            <div class="equation-display" id="equation-display">12 &times; 5</div>
+            <div class="form-group" style="max-width: 250px; margin: 0 auto 12px;">
+              <input type="number" class="input-control" id="game-answer-input" style="text-align: center; font-size: 1.4rem;" placeholder="?" autocomplete="off" disabled>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Press Enter or click Submit to answer.</p>
+          </div>
+
+          <!-- Summary display -->
+          <div id="game-over-view" style="display: none; width: 100%; text-align: left;">
+            <h2 style="margin-bottom: 12px; color: var(--accent);">Game Over!</h2>
+            <div style="font-size: 1.1rem; margin-bottom: 8px;">Final Score: <strong id="summary-score" style="color:var(--accent);">0</strong></div>
+            <div style="font-size: 1.1rem; margin-bottom: 8px;">Accuracy: <strong id="summary-accuracy">100%</strong></div>
+            <div style="font-size: 1.1rem; margin-bottom: 16px;">Longest Streak: <strong id="summary-streak">0</strong></div>
+            
+            <div id="summary-wrong-section" style="display: none; border-top: 1px solid var(--border-color); padding-top: 14px;">
+              <h3 style="font-size: 1rem; color: var(--text-main);">Questions to Review:</h3>
+              <ul class="wrong-answers-list" id="summary-wrong-list">
+                <!-- Missed equations listed here -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related tools cross-linking -->
+    <div class="tool-cross-links">
+      <h3>Other Math Tools</h3>
+      <div class="cross-links-grid">
+        <a href="/tools/graphing-calculator/" class="cross-link-card">
+          <span>Graphing Calculator</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a href="/tools/daily-puzzle/" class="cross-link-card">
+          <span>Daily Math Puzzle</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a href="/tools/division-visualizer/" class="cross-link-card">
+          <span>Division Visualizer</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="/assets/images/logo.png?v=2" alt="profpi logo" width="24" height="24">
+        <span>profpi</span>
+      </div>
+      <nav class="footer-nav">
+        <a href="/">Home</a>
+        <a href="/tools/graphing-calculator/">Graphing Calculator</a>
+      </nav>
+      <p class="footer-copy">© <span id="footer-year"></span> profpi. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/home.js" defer></script>
+  <script src="/js/mental-math-trainer.js" defer></script>
+</body>
+
+</html>
