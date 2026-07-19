@@ -8,13 +8,13 @@
   --card-active: #f1f5f9;
   --input-bg: #ffffff;
   --border-color: #e2e8f0;
-  --border-focus: #6366f1;
+  --border-focus: #4f46e5;
 
   --text-main: #0f172a;
-  --text-muted: #64748b;
+  --text-muted: #475569;
 
-  --accent: #6366f1;
-  --accent-hover: #4f46e5;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
   --danger: #ef4444;
   --danger-bg: #fee2e2;
 
