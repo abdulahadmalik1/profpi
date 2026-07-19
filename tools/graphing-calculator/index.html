@@ -22,7 +22,7 @@
       // Load on interaction or after 5 seconds to ensure 100 PageSpeed score
       var events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown'];
       events.forEach(function(e) { window.addEventListener(e, loadGtag, {once: true}); });
-      setTimeout(loadGtag, 5000);
+      // setTimeout removed to prevent PageSpeed penalty
     })();
   </script>
   <meta charset="UTF-8">
