@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) deferred -->
+  <script>
+    (function() {
+      var gtagLoaded = false;
+      function loadGtag() {
+        if (gtagLoaded) return;
+        gtagLoaded = true;
+        var script = document.createElement('script');
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-5GR7JLNW3T";
+        script.async = true;
+        document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5GR7JLNW3T');
+      }
+      var events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown'];
+      events.forEach(function(e) { window.addEventListener(e, loadGtag, {once: true}); });
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('profpi-theme');
+      var theme = saved || 'light';
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <title>Neural Network Playground &#x2014; Train &amp; Visualize Backpropagation Live | profpi</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="Train a real neural network in your browser and watch every weight, activation, and gradient update live. Pick a dataset, build your architecture, and see backpropagation work step by step. Free interactive deep learning tool, no install.">
+  <meta name="keywords" content="neural network playground, backpropagation visualizer, neural network training browser, interactive deep learning, gradient descent visualizer, decision boundary visualizer, multilayer perceptron demo, visualize neural network, neural network simulator, free machine learning tool">
+  <meta name="author" content="profpi">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://www.profpi.com/tools/neural-network-explorer/">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Neural Network Playground",
+    "url": "https://www.profpi.com/tools/neural-network-explorer/",
+    "description": "Interactive neural network playground: train a real feedforward neural network in your browser, watching every weight, activation, and backpropagation gradient update live. Build custom architectures, choose datasets, watch decision boundaries form in real time.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": ["In-browser neural network training", "Live backpropagation visualization", "Real-time gradient updates", "Custom layer architecture", "Multiple datasets", "Decision boundary visualization", "Multiple activation functions"]
+  }
+  </script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="profpi">
+  <meta property="og:title" content="Neural Network Playground &#x2014; Train &amp; Visualize Backpropagation Live | profpi">
+  <meta property="og:description" content="Train a real neural network in your browser and watch every weight, activation, and gradient update live. Build your architecture, pick a dataset, and see backpropagation work step by step. Free.">
+  <meta property="og:image" content="https://www.profpi.com/assets/images/logo.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="profpi logo">
+  <meta property="og:url" content="https://www.profpi.com/tools/neural-network-explorer/">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Neural Network Playground &#x2014; Train &amp; Visualize Backpropagation Live | profpi">
+  <meta name="twitter:description" content="Train a real neural network in your browser and watch every weight, activation, and gradient update live. Build your architecture, pick a dataset, and see backpropagation work step by step. Free.">
+  <meta name="twitter:image" content="https://www.profpi.com/assets/images/logo.png">
+  <meta name="twitter:image:alt" content="profpi logo">
+
+  <!-- Icons / PWA -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/icon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/icon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/images/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/neural-network-explorer.css">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" aria-label="profpi home">
+        <img src="/assets/images/logo.webp" alt="profpi logo" class="brand-logo" width="36" height="36" fetchpriority="high">
+        <span class="brand-name">profpi</span>
+      </a>
+      <nav class="site-nav" id="site-nav">
+        <a href="/tools/ode-explorer/">ODE Explorer</a>
+        <a href="/tools/neural-ode-explorer/">Neural ODE</a>
+        <a href="/tools/fourier-explorer/">Fourier Explorer</a>
+        <a href="/tools/neural-network-explorer/" aria-current="page">Neural Network Explorer</a>
+        <a href="/#tools">All tools</a>
+        <a class="nav-cta" href="/#tools">Open a tool</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+        <svg id="theme-toggle-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"></svg>
+      </button>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="tool-hero">
+      <div class="eyebrow">Neural networks</div>
+      <h1>Watch a neural network learn</h1>
+      <p>
+        This is a real, small feedforward network training in your browser — not a canned animation.
+        Pick a dataset, shape the architecture, and hit play: every weighted sum, every activation, and
+        every gradient you see is the actual number the network is computing on that step. Click any
+        point on the plot to <strong>probe</strong> it and watch the exact forward pass and, once the
+        network has seen a label, the backward pass — the error signal <strong>δ</strong> and every
+        weight gradient — flow through the diagram below.
+      </p>
+    </section>
+
+    <div class="tool-section">
+      <aside class="control-panel">
+        <div class="field-group">
+          <label>Dataset</label>
+          <div class="preset-chip-row" id="datasetChips">
+            <button type="button" class="preset-chip is-active" data-dataset="circle">Circle</button>
+            <button type="button" class="preset-chip" data-dataset="xor">XOR</button>
+            <button type="button" class="preset-chip" data-dataset="gaussian">Gaussian</button>
+            <button type="button" class="preset-chip" data-dataset="spiral">Spiral</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="range-row">
+            <label for="noiseInput">Noise</label>
+            <span class="range-value" id="noiseValue">10%</span>
+          </div>
+          <input type="range" id="noiseInput" min="0" max="50" step="1" value="10">
+        </div>
+
+        <div class="field-group">
+          <label>Hidden layers</label>
+          <div id="hiddenLayersEditor"></div>
+          <button type="button" class="btn-panel add-layer-btn" id="addLayerBtn">+ Add hidden layer</button>
+          <p class="field-hint">Up to 3 layers, 1–8 neurons each. Changing this resets the network's weights.</p>
+        </div>
+
+        <div class="field-group">
+          <label for="activationSelect">Activation function</label>
+          <select id="activationSelect">
+            <option value="tanh" selected>Tanh</option>
+            <option value="relu">ReLU</option>
+            <option value="sigmoid">Sigmoid</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="lrSelect">Learning rate</label>
+          <select id="lrSelect">
+            <option value="0.03">0.03</option>
+            <option value="0.1">0.1</option>
+            <option value="0.3" selected>0.3</option>
+            <option value="1">1</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <div class="range-row">
+            <label for="speedInput">Training speed</label>
+            <span class="range-value" id="speedValue">8/s</span>
+          </div>
+          <input type="range" id="speedInput" min="1" max="30" step="1" value="8">
+        </div>
+
+        <div class="field-group">
+          <div class="checkbox-row">
+            <input type="checkbox" id="showGradientsCheckbox">
+            <label for="showGradientsCheckbox">Show δ gradients on diagram</label>
+          </div>
+        </div>
+
+        <div class="playback-row">
+          <button type="button" class="btn-panel btn-panel-primary" id="playPauseBtn">Play</button>
+          <button type="button" class="btn-panel" id="stepBtn">Step</button>
+          <button type="button" class="btn-panel" id="resetBtn">Reset</button>
+        </div>
+
+        <div class="fidelity-badge" id="statusBadge">Epoch <strong>0</strong> &nbsp;·&nbsp; Loss <strong>–</strong> &nbsp;·&nbsp; Accuracy <strong>–</strong></div>
+
+        <div class="error-banner is-hidden" id="errorBanner" role="alert"></div>
+      
+        <div class="field-group" style="margin-top: 32px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-size: 0.9rem;">Advanced: Edit Network State</h3>
+            <div id="advancedToggle" style="cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;" title="Toggle Advanced Options">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div id="advancedPanel" class="is-hidden" style="margin-top: 16px;">
+            <p class="field-hint" style="margin-bottom: 8px;">Select a neuron to directly edit its incoming weights and bias.</p>
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <select id="advLayerSelect" style="flex: 1;"></select>
+              <select id="advNeuronSelect" style="flex: 1;"></select>
+            </div>
+            <div id="advInputsContainer" style="display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; padding-right: 4px;"></div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+              <button type="button" class="btn-panel btn-panel-primary" id="advancedApplyBtn" style="flex: 1;">Apply Changes</button>
+            </div>
+            <p id="advancedError" class="field-hint" style="color: var(--danger); margin-top: 8px; display: none;"></p>
+          </div>
+        </div>
+
+      </aside>
+
+      <div class="canvas-column">
+        <div class="canvas-row">
+          <div class="canvas-wrap">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px;">
+              <div>
+                <h3 style="margin: 0 0 4px 0;">Decision boundary</h3>
+                <p class="field-hint" style="margin: 0;">Background color is the network's live prediction. Dots are training data — click one (or anywhere) to probe it.</p>
+              </div>
+              <button class="fullscreen-toggle" title="Toggle Fullscreen" onclick="this.closest('.canvas-wrap').classList.toggle('is-fullscreen'); window.dispatchEvent(new Event('resize'));">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              </button>
+            </div>
+            <div class="canvas-stage">
+              <canvas id="boundaryCanvas"></canvas>
+            </div>
+            <div class="canvas-legend">
+              <span class="legend-chip"><span class="legend-swatch" style="background:#f59e0b"></span>Class 0</span>
+              <span class="legend-chip"><span class="legend-swatch" style="background:var(--accent, #6366f1)"></span>Class 1</span>
+              <span class="legend-chip"><span class="legend-swatch" style="background:transparent;border:2px solid var(--text-main, #0f172a);border-radius:50%"></span>Probe point</span>
+            </div>
+          </div>
+
+          <div class="canvas-wrap">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px;">
+              <div>
+                <h3 style="margin: 0 0 4px 0;">Network</h3>
+                <p class="field-hint" style="margin: 0;">Node number = live activation for the probed point. Edge color/thickness = weight sign &amp; size. Click a neuron to inspect it.</p>
+              </div>
+              <button class="fullscreen-toggle" title="Toggle Fullscreen" onclick="this.closest('.canvas-wrap').classList.toggle('is-fullscreen'); window.dispatchEvent(new Event('resize'));">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              </button>
+            </div>
+            <canvas class="network-stage" id="networkCanvas"></canvas>
+            <div class="canvas-legend">
+              <span class="legend-chip"><span class="legend-swatch" style="background:#f59e0b"></span>Negative weight</span>
+              <span class="legend-chip"><span class="legend-swatch" style="background:var(--accent, #6366f1)"></span>Positive weight</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="probe-panel">
+          <h3>Neuron inspector</h3>
+          <p id="probeStatus"></p>
+          <div id="probeInspector"></div>
+        </div>
+
+        <div class="spectrum-panel">
+          <h3>Training loss</h3>
+          <p class="field-hint">Mean cross-entropy loss over the full dataset, recomputed after every gradient descent step.</p>
+          <canvas class="spectrum-stage" id="lossCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <section class="tool-explainer">
+      <div class="tool-explainer-grid">
+        <div class="tool-explainer-card">
+          <h3>What's actually happening</h3>
+          <p>Each neuron computes a weighted sum of its inputs plus a bias — Σ(w·x) + b — then squashes it through an activation function. Stack enough of these and the network can bend a straight decision boundary into whatever shape the data needs. The output neuron uses a sigmoid, so its activation is a probability between 0 and 1.</p>
+        </div>
+        <div class="tool-explainer-card">
+          <h3>How training works</h3>
+          <p>The loss (cross-entropy) measures how wrong the prediction was. Backpropagation applies the chain rule layer by layer, starting at the output, to compute exactly how much each weight contributed to that error — the error signal δ. Gradient descent then nudges every weight a small step opposite its gradient, scaled by the learning rate, and repeats.</p>
+        </div>
+        <div class="tool-explainer-card">
+          <h3>Reading the diagrams</h3>
+          <p>In the network view, each node's number is its current activation for whatever point you're probing; edge color shows a weight's sign and thickness shows its magnitude. In the decision boundary, color is the model's live prediction across the whole plane — watch it reshape itself as training runs.</p>
+        </div>
+      </div>
+    </section>
+
+    <div style="text-align: center; width: 100%; margin: 0 0 64px; clear: both;">
+      <a href="/#tools" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: 1rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-main)';" onmouseout="this.style.color='var(--text-muted)';">
+        View all math tools
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="/assets/images/logo.webp" alt="profpi logo" width="24" height="24">
+      <span>profpi</span>
+    </div>
+    <nav class="footer-nav" style="flex-wrap: wrap; justify-content: center;">
+      <a href="/">Home</a>
+      <a href="/#features">Features</a>
+      <a href="/#tools">Tools</a>
+    </nav>
+    <p class="footer-copy">&copy; <span id="footer-year">2026</span> profpi. All rights reserved.</p>
+  </div>
+</footer>
+
+  <script src="/js/home.js"></script>
+  <script src="/js/neural-core.js"></script>
+  <script src="/js/neural-network-explorer.js?v=13"></script>
+</body>
+</html>

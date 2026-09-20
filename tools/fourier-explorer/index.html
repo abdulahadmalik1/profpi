@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) deferred -->
+  <script>
+    (function() {
+      var gtagLoaded = false;
+      function loadGtag() {
+        if (gtagLoaded) return;
+        gtagLoaded = true;
+        var script = document.createElement('script');
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-5GR7JLNW3T";
+        script.async = true;
+        document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5GR7JLNW3T');
+      }
+      var events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown'];
+      events.forEach(function(e) { window.addEventListener(e, loadGtag, {once: true}); });
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('profpi-theme');
+      var theme = saved || 'light';
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <title>Fourier Series Visualizer &#x2014; Draw Shapes with Rotating Epicycles | profpi</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="Draw any shape or enter a parametric curve and watch rotating epicycles trace it in real time — with the live frequency spectrum alongside. Interactive Fourier series and DFT visualizer. Free, no install.">
+  <meta name="keywords" content="Fourier series visualizer, Fourier transform animation, epicycles Fourier, draw with circles, DFT visualizer, parametric curve Fourier, frequency spectrum visualizer, Fourier series online, signal decomposition, interactive math tool">
+  <meta name="author" content="profpi">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://www.profpi.com/tools/fourier-explorer/">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Fourier Series Explorer",
+    "url": "https://www.profpi.com/tools/fourier-explorer/",
+    "description": "Interactive Fourier series and DFT visualizer: draw any shape or type a parametric curve and watch a chain of rotating epicycles trace it in real time alongside the live frequency spectrum. Runs entirely in your browser — no install needed.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": ["Fourier series animation", "Epicycle visualization", "Draw custom shapes", "Parametric curve input", "Live frequency spectrum", "DFT computation"]
+  }
+  </script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="profpi">
+  <meta property="og:title" content="Fourier Series Visualizer &#x2014; Draw Shapes with Rotating Epicycles | profpi">
+  <meta property="og:description" content="Draw any shape or type a parametric curve and watch rotating epicycles trace it in real time — with the live frequency spectrum alongside. Interactive Fourier series visualizer. Free.">
+  <meta property="og:image" content="https://www.profpi.com/assets/images/logo.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="profpi logo">
+  <meta property="og:url" content="https://www.profpi.com/tools/fourier-explorer/">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fourier Series Visualizer &#x2014; Draw Shapes with Rotating Epicycles | profpi">
+  <meta name="twitter:description" content="Draw any shape or type a parametric curve and watch rotating epicycles trace it in real time — with the live frequency spectrum alongside. Interactive Fourier series visualizer. Free.">
+  <meta name="twitter:image" content="https://www.profpi.com/assets/images/logo.png">
+  <meta name="twitter:image:alt" content="profpi logo">
+
+  <!-- Icons / PWA -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/images/icon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/icon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/images/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/fourier-explorer.css">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" aria-label="profpi home">
+        <img src="/assets/images/logo.webp" alt="profpi logo" class="brand-logo" width="36" height="36" fetchpriority="high">
+        <span class="brand-name">profpi</span>
+      </a>
+      <nav class="site-nav" id="site-nav">
+        <a href="/tools/ode-explorer/">ODE Explorer</a>
+        <a href="/tools/neural-ode-explorer/">Neural ODE</a>
+        <a href="/tools/fourier-explorer/" aria-current="page">Fourier Explorer</a>
+        <a href="/#tools">All tools</a>
+        <a class="nav-cta" href="/#tools">Open a tool</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+        <svg id="theme-toggle-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"></svg>
+      </button>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="tool-hero">
+      <div class="eyebrow">Fourier series</div>
+      <h1>Draw with circles</h1>
+      <p>
+        Every closed curve — however wiggly — can be built out of circles spinning on circles.
+        Draw a shape (or type a parametric curve) and this tool runs it through a discrete Fourier
+        transform, then sorts the result into a chain of rotating <strong>epicycles</strong>: the
+        biggest circle turns once per loop, the next-biggest turns twice, and so on. Sum them all
+        up and their tips trace your original drawing. The bar chart alongside shows exactly how
+        much each circle is contributing — drag the harmonics slider down and watch the trace
+        simplify as you strip away the smaller circles.
+      </p>
+    </section>
+
+    <form class="tool-section" id="controlForm">
+      <div class="control-panel">
+        <div class="mode-toggle" role="tablist" aria-label="Input mode">
+          <button type="button" id="modeDrawBtn" class="is-active" role="tab" aria-selected="true">Draw</button>
+          <button type="button" id="modeParametricBtn" role="tab" aria-selected="false">Parametric</button>
+        </div>
+
+        <div id="drawFields" class="field-group">
+          <p class="field-hint">Draw a stroke on the canvas. It doesn't need to be closed — the transform closes the loop for you.</p>
+          <button type="button" class="btn-panel" id="clearDrawingBtn">Clear drawing</button>
+        </div>
+
+        <div id="parametricFields" class="field-group is-hidden">
+          <label for="exprX">x(t)</label>
+          <input type="text" id="exprX" value="cos(t)" spellcheck="false" autocomplete="off">
+          <label for="exprY">y(t)</label>
+          <input type="text" id="exprY" value="sin(t)" spellcheck="false" autocomplete="off">
+          <p class="field-hint">t sweeps 0 → 2π. Use x, sin, cos, ^, etc. — same grammar as the other tools.</p>
+        </div>
+
+        <div class="field-group">
+          <label>Try a shape</label>
+          <div class="preset-chip-row">
+            <button type="button" class="preset-chip" data-preset="circle">Circle</button>
+            <button type="button" class="preset-chip" data-preset="heart">Heart</button>
+            <button type="button" class="preset-chip" data-preset="star">Star</button>
+            <button type="button" class="preset-chip" data-preset="lissajous">Lissajous</button>
+            <button type="button" class="preset-chip" data-preset="astroid">Astroid</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="range-row">
+            <label for="harmonicsInput">Harmonics (circles)</label>
+            <span class="range-value" id="harmonicsValue">30</span>
+          </div>
+          <input type="range" id="harmonicsInput" min="1" max="200" step="1" value="30">
+        </div>
+
+        <div class="field-group">
+          <label for="sampleCountSelect">Sample resolution</label>
+          <select id="sampleCountSelect">
+            <option value="128">128 points</option>
+            <option value="256" selected>256 points</option>
+            <option value="512">512 points</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <div class="range-row">
+            <label for="speedInput">Playback speed</label>
+            <span class="range-value" id="speedValue">1.0×</span>
+          </div>
+          <input type="range" id="speedInput" min="0.1" max="3" step="0.1" value="1">
+        </div>
+
+        <div class="playback-row">
+          <button type="button" class="btn-panel btn-panel-primary" id="playPauseBtn">Pause</button>
+          <button type="button" class="btn-panel" id="resetAnimationBtn">Reset</button>
+        </div>
+
+        <div class="fidelity-badge" id="fidelityBadge">Draw or type a curve to begin.</div>
+
+        <div class="error-banner is-hidden" id="errorBanner" role="alert"></div>
+      </div>
+
+      <div class="canvas-column">
+        <div class="canvas-wrap">
+          <div class="canvas-stage" id="canvasStage">
+            <canvas id="plotCanvas"></canvas>
+            <div class="canvas-stage-hint" id="canvasHint">Click and drag to draw a shape</div>
+          </div>
+          <div class="canvas-legend" id="canvasLegend"></div>
+        </div>
+
+        <div class="spectrum-panel" id="spectrumPanel">
+          <h3>Frequency spectrum</h3>
+          <p class="field-hint">Each bar is one circle's size. Negative frequencies spin clockwise, positive spin counter-clockwise, 0 is the shape's center.</p>
+          <canvas class="spectrum-stage" id="spectrumCanvas"></canvas>
+        </div>
+      </div>
+    </form>
+
+    <section class="tool-explainer">
+      <div class="tool-explainer-grid">
+        <div class="tool-explainer-card">
+          <h3>What's actually happening</h3>
+          <p>Your path becomes a sequence of complex numbers z = x + iy. Running that through a discrete Fourier transform decomposes it into rotating terms A·e^(i(k·t + φ)) — each one a circle of radius A turning at a constant rate k. Add them tip-to-tail and you get your curve back.</p>
+        </div>
+        <div class="tool-explainer-card">
+          <h3>Why truncating still works</h3>
+          <p>The transform sorts terms by size, so the first few circles usually capture most of the shape. Dropping the small ones is a low-pass filter made visible: the trace stays recognizable but loses its sharp corners and fine wiggles — exactly what you'd expect from cutting high frequencies.</p>
+        </div>
+        <div class="tool-explainer-card">
+          <h3>Reading the spectrum</h3>
+          <p>The bar chart is the same information as the circles, laid out by frequency instead of by size. A tall spike at a low frequency means a smooth, simple shape; energy spread across many high frequencies means sharp corners or fine detail, like the points of the star preset.</p>
+        </div>
+      </div>
+    </section>
+
+    <div style="text-align: center; width: 100%; margin: 0 0 64px; clear: both;">
+      <a href="/#tools" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: 1rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-main)';" onmouseout="this.style.color='var(--text-muted)';">
+        View all math tools
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="/assets/images/logo.webp" alt="profpi logo" width="24" height="24">
+      <span>profpi</span>
+    </div>
+    <nav class="footer-nav" style="flex-wrap: wrap; justify-content: center;">
+      <a href="/">Home</a>
+      <a href="/#features">Features</a>
+      <a href="/#tools">Tools</a>
+    </nav>
+    <p class="footer-copy">&copy; <span id="footer-year">2026</span> profpi. All rights reserved.</p>
+  </div>
+</footer>
+
+  <script src="/js/mathcore.js"></script>
+  <script src="/js/expr-parser.js"></script>
+  <script src="/js/fourier-core.js"></script>
+  <script src="/js/fourier-explorer.js"></script>
+<script src="/js/home.js"></script>
+</body>
+</html>

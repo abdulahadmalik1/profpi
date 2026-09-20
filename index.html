@@ -557,11 +557,11 @@ a.tool-card:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 16px;
 }
 
 .footer-brand {
+  flex: 1 1 0%;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -586,6 +586,8 @@ a.tool-card:hover {
 }
 
 .footer-copy {
+  flex: 1 1 0%;
+  text-align: right;
   font-size: 0.82rem;
   color: var(--text-muted);
 }
@@ -820,6 +822,93 @@ a.tool-card:hover {
       <p class="section-sub">Choose from our suite of 12+ calculators, simulators, and visual solvers.</p>
 
       <div class="tools-grid">
+      <a href="/tools/ode-explorer/" class="tool-card">
+        <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: var(--accent); font-family: 'Times New Roman', serif; font-style: italic;">
+          dy/dx
+        </div>
+        <div class="tool-card-body">
+          <h3>ODE &amp; Phase Portrait</h3>
+          <p>Plot slope fields, trajectories, and automatically classify equilibria (saddles, nodes, spirals).</p>
+          <span class="tool-card-link">Open tool
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </div>
+      </a>
+        
+        
+      
+      
+      <!-- Neural Network Explorer -->
+      <a href="/tools/neural-network-explorer/" class="tool-card">
+        <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 700; color: var(--accent); font-family: 'Times New Roman', serif;">
+          W·x + b
+        </div>
+        <div class="tool-card-body">
+          <h3>Neural Network Playground</h3>
+          <p>Train a real neural network in your browser and watch backpropagation learn step by step.</p>
+          <span class="tool-card-link">Open tool
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      
+      <!-- Complex Plane Explorer -->
+      <a href="/tools/complex-plane-explorer/" class="tool-card">
+        <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 700; color: var(--accent); font-family: 'Times New Roman', serif;">
+          f(z)
+        </div>
+        <div class="tool-card-body">
+          <h3>Complex Plane</h3>
+          <p>Type a complex function and see it rendered live as a domain-coloring map with poles and zeros marked.</p>
+          <span class="tool-card-link">Open tool
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Fourier Explorer -->
+      <a href="/tools/fourier-explorer/" class="tool-card">
+        <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 700; color: var(--accent); font-family: 'Times New Roman', serif;">
+          c_n e^{inx}
+        </div>
+        <div class="tool-card-body">
+          <h3>Fourier Explorer</h3>
+          <p>Draw any shape, or type a parametric curve, and watch a chain of rotating epicycles trace it in real time.</p>
+          <span class="tool-card-link">Open tool
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Neural ODE Explorer -->
+        <a href="/tools/neural-ode-explorer/" class="tool-card">
+          <div class="tool-card-visual" style="display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 700; color: var(--accent); font-family: 'Times New Roman', serif;">
+            f(x; θ)
+          </div>
+          <div class="tool-card-body">
+            <h3>Neural ODE</h3>
+            <p>Train a tiny neural network to learn a differential equation's vector field from sampled data.</p>
+            <span class="tool-card-link">Open tool
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
         <!-- 1. Graphing Calculator -->
         <a href="/tools/graphing-calculator/" class="tool-card">
           <div class="tool-card-visual">
@@ -1113,30 +1202,19 @@ a.tool-card:hover {
 
   <!-- Footer -->
   <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <img src="/assets/images/logo.webp" alt="profpi logo" width="24" height="24">
-        <span>profpi</span>
-      </div>
-      <nav class="footer-nav">
-        <a href="/">Home</a>
-        <a href="/tools/graphing-calculator/">Graphing Calculator</a>
-        <a href="/tools/symbol-dictionary/">Symbol Dictionary</a>
-        <a href="/tools/fraction-visualizer/">Fraction Visualizer</a>
-        <a href="/tools/equation-finder/">Equation Finder</a>
-        <a href="/tools/geometry-solver/">Geometry Solver</a>
-        <a href="/tools/number-pattern-solver/">Pattern Solver</a>
-        <a href="/tools/unit-circle-explorer/">Unit Circle</a>
-        <a href="/tools/division-visualizer/">Division Visualizer</a>
-        <a href="/tools/daily-puzzle/">Daily Puzzle</a>
-        <a href="/tools/probability-simulator/">Probability Sim</a>
-        <a href="/tools/base-converter/">Base Converter</a>
-        <a href="/tools/mental-math-trainer/">Mental Math</a>
-        <a href="/tools/word-problem-diagrammer/">Tape Diagrammer</a>
-      </nav>
-      <p class="footer-copy">© <span id="footer-year"></span> profpi. All rights reserved.</p>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="/assets/images/logo.webp" alt="profpi logo" width="24" height="24">
+      <span>profpi</span>
     </div>
-  </footer>
+    <nav class="footer-nav" style="flex-wrap: wrap; justify-content: center;">
+      <a href="/">Home</a>
+      <a href="/#features">Features</a>
+      <a href="/#tools">Tools</a>
+    </nav>
+    <p class="footer-copy">&copy; <span id="footer-year">2026</span> profpi. All rights reserved.</p>
+  </div>
+</footer>
 
   <script src="/js/home.js" defer></script>
 </body>

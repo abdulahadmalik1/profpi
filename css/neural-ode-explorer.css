@@ -1,0 +1,141 @@
+/* ── profpi / Neural ODE Explorer ── */
+/* Loaded after ode-explorer.css and inherits its .control-panel,
+   .field-group, .expr-input, .preset-chip, .bounds-grid, .btn-primary/
+   .btn-secondary, .error-banner, .canvas-wrap, .canvas-legend, and
+   .equilibria-panel/.equilibria-list styling wholesale. This file only
+   adds what Neural ODE needs on top of that. */
+
+.preset-chip.is-active {
+  color: var(--accent, #6366f1);
+  border-color: var(--accent, #6366f1);
+  background: var(--card-active, #eef2ff);
+}
+
+/* ── Field-group / slider spacing ──────────────────────────────────
+   Labels were sitting almost flush against their sliders, and one
+   field-group ran straight into the next. Give both some room. */
+.control-panel .field-group {
+  margin-bottom: 22px;
+}
+
+.control-panel .field-group:last-of-type {
+  margin-bottom: 0;
+}
+
+.control-panel .range-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.control-panel input[type="range"] {
+  display: block;
+  width: 100%;
+  margin: 6px 0 0;
+}
+
+/* ── Stop the left panel stretching to match the right column ──────
+   Default align-items: stretch on the shared row/grid forces the
+   control panel to match the (now taller, always-visible) right
+   column's height, leaving dead space below the "Train" button.
+   Pin both columns to their natural height instead. */
+.tool-section {
+  align-items: start;
+}
+
+.control-panel {
+  height: fit-content;
+  align-self: start;
+}
+
+/* ── Training stat rows ─────────────────────────────────────────────
+   Give each row its own card + breathing room instead of letting
+   them merge into one solid bar. */
+#statsList {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--card-alt, rgba(148, 163, 184, 0.08));
+  font-size: 0.82rem;
+  color: var(--text-muted, #64748b);
+  line-height: 1.2;
+}
+
+.stat-row strong {
+  color: var(--text-main, #0f172a);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-row.is-warning strong {
+  color: var(--op-danger, #ef4444);
+}
+
+/* Tiny inline loss sparkline canvas */
+.loss-sparkline {
+  width: 100%;
+  height: 40px;
+  display: block;
+  margin-top: 4px;
+}
+
+/* ── Match the Training panel's width to the plot canvas above it ──
+   Both should be siblings in the same column, at the same
+   box-sizing, with no extra horizontal margin fighting each other. */
+.canvas-wrap,
+#statsPanel {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  box-sizing: border-box;
+}
+
+#flowScrubGroup {
+  display: none;
+}
+
+#flowScrubGroup.is-visible {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#playFlowBtn.is-playing {
+  color: var(--accent, #6366f1);
+  border-color: var(--accent, #6366f1);
+}
+
+/* Decision-boundary legend swatches need a soft fill, not the usual dot */
+.legend-swatch.legend-fill {
+  border-radius: 3px;
+  width: 14px;
+  height: 10px;
+}
+
+/* Stop the train buttons from resizing/jumping when their label or
+   disabled state changes ("Train…" → "Training…") */
+#trainFitBtn,
+#trainFlowBtn {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 10px 16px;
+  font-weight: inherit;
+  white-space: nowrap;
+}
+
+#trainFitBtn:disabled,
+#trainFlowBtn:disabled {
+  padding: 10px 16px;
+  /* same as enabled — no shrink/grow on disable */
+  opacity: 0.75;
+  cursor: not-allowed;
+}

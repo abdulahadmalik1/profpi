@@ -538,11 +538,11 @@ a.tool-card:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 16px;
 }
 
 .footer-brand {
+  flex: 1 1 0%;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -567,6 +567,8 @@ a.tool-card:hover {
 }
 
 .footer-copy {
+  flex: 1 1 0%;
+  text-align: right;
   font-size: 0.82rem;
   color: var(--text-muted);
 }
@@ -1130,31 +1132,23 @@ html[data-theme="dark"] select.input-control {
     </div>
 
     <!-- Related tools cross-linking -->
-    <div class="tool-cross-links">
-      <h3>Explore Other Symbols</h3>
-      <div class="cross-links-grid">
-        <a href="/tools/symbol-dictionary/sigma/" class="cross-link-card">
-          <span>Sigma (Σ)</span>
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-        <a href="/tools/symbol-dictionary/integral/" class="cross-link-card">
-          <span>Integral (∫)</span>
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-        <a href="/tools/symbol-dictionary/pi/" class="cross-link-card">
-          <span>Pi (π)</span>
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-      </div>
+    
+    
+    
+    
+    
+    <style>
+      /* Override the huge 80px default bottom padding to balance the spacing perfectly */
+      .tool-page-container { padding-bottom: 0 !important; }
+    </style>
+    <div style="text-align: center; width: 100%; margin: 60px 0; clear: both;">
+      <a href="/#tools" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: 1rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-main)';" onmouseout="this.style.color='var(--text-muted)';">
+        View all math tools
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
     </div>
   </main>
 
@@ -1195,6 +1189,6 @@ html[data-theme="dark"] select.input-control {
       });
     });
   </script>
-</body>
+  </body>
 
 </html>

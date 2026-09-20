@@ -28,7 +28,7 @@
     };
 
     const FUNCTIONS = new Set([
-      ...DIRECT_MATH, 'ln', 'log', ...Object.keys(MATH_EXT),
+      ...DIRECT_MATH, 'ln', 'log', 'sum', ...Object.keys(MATH_EXT),
     ]);
 
     function tokenize(input) {
@@ -50,7 +50,7 @@
           tokens.push({ type: 'IDENTIFIER', value: s });
           continue;
         }
-        if ('+-*/^(),'.includes(ch)) {
+        if ('+-*/^(),='.includes(ch)) {
           tokens.push({ type: 'OPERATOR', value: ch });
           pos++;
           continue;
@@ -128,6 +128,28 @@
         if (tok.type === 'IDENTIFIER') {
           const id = this.next().value;
           if (this.match('OPERATOR', '(')) {
+            if (id === 'sum') {
+              const varTok = this.peek();
+              if (!varTok || varTok.type !== 'IDENTIFIER') throw new Error("Expected variable name in sum");
+              const varName = this.next().value;
+              if (!this.match('OPERATOR', '=')) throw new Error("Expected '=' after sum variable");
+              const start = this.parseExpr();
+              if (!this.match('OPERATOR', ',')) throw new Error("Expected ',' after sum start");
+              const end = this.parseExpr();
+              if (!this.match('OPERATOR', ',')) throw new Error("Expected ',' after sum end");
+              
+              this.sumVars = this.sumVars || new Set();
+              const wasPresent = this.sumVars.has(varName);
+              this.sumVars.add(varName);
+              
+              const body = this.parseExpr();
+              
+              if (!wasPresent) this.sumVars.delete(varName);
+              if (!this.match('OPERATOR', ')')) throw new Error("Missing ')' in sum");
+              
+              return `(function(){ let _s=0; let _start=Math.round(${start}); let _end=Math.round(${end}); for(let ${varName}=_start; ${varName}<=_end; ${varName}++){ _s += ${body}; } return _s; })()`;
+            }
+            
             const arg = this.parseExpr();
             if (!this.match('OPERATOR', ')')) throw new Error(`Missing ')' after ${id}(`);
             if (!FUNCTIONS.has(id)) throw new Error(`Unknown function '${id}'`);
@@ -140,6 +162,7 @@
           if (id === 'y') return 'y';
           if (id === 'pi' || id === 'PI') return 'Math.PI';
           if (id === 'e') return 'Math.E';
+          if (this.sumVars && this.sumVars.has(id)) return id;
           throw new Error(`Unknown identifier '${id}'`);
         }
 
@@ -183,9 +206,17 @@
     //   implicit=true  → fn(x, y) -> value; the curve is where fn(x,y) === 0
     function compileEquation(text) {
       if (!text || !text.trim()) throw new Error('Empty expression');
-      const eqIdx = text.indexOf('=');
+      let eqIdx = -1;
+      let parenDepth = 0;
+      for (let i = 0; i < text.length; i++) {
+        if (text[i] === '(') parenDepth++;
+        else if (text[i] === ')') parenDepth--;
+        else if (text[i] === '=' && parenDepth === 0) {
+          if (eqIdx !== -1) throw new Error("Only one '=' is allowed at the top level");
+          eqIdx = i;
+        }
+      }
       if (eqIdx === -1) return { fn: compileExpression(text), implicit: false };
-      if (text.indexOf('=', eqIdx + 1) !== -1) throw new Error("Only one '=' is allowed");
 
       const lhsText = text.slice(0, eqIdx).trim();
       const rhsText = text.slice(eqIdx + 1).trim();
